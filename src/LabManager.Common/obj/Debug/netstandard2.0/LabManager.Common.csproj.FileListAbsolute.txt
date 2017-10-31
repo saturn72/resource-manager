@@ -1,0 +1,11 @@
+C:\dev\LabManager\src\LabManager.Common\bin\Debug\netstandard2.0\LabManager.Common.deps.json
+C:\dev\LabManager\src\LabManager.Common\bin\Debug\netstandard2.0\LabManager.Common.dll
+C:\dev\LabManager\src\LabManager.Common\bin\Debug\netstandard2.0\LabManager.Common.pdb
+C:\dev\LabManager\src\LabManager.Common\bin\Debug\netstandard2.0\QAutomation.Core.dll
+C:\dev\LabManager\src\LabManager.Common\bin\Debug\netstandard2.0\QAutomation.Core.pdb
+C:\dev\LabManager\src\LabManager.Common\obj\Debug\netstandard2.0\LabManager.Common.csprojResolveAssemblyReference.cache
+C:\dev\LabManager\src\LabManager.Common\obj\Debug\netstandard2.0\LabManager.Common.csproj.CoreCompileInputs.cache
+C:\dev\LabManager\src\LabManager.Common\obj\Debug\netstandard2.0\LabManager.Common.AssemblyInfoInputs.cache
+C:\dev\LabManager\src\LabManager.Common\obj\Debug\netstandard2.0\LabManager.Common.AssemblyInfo.cs
+C:\dev\LabManager\src\LabManager.Common\obj\Debug\netstandard2.0\LabManager.Common.dll
+C:\dev\LabManager\src\LabManager.Common\obj\Debug\netstandard2.0\LabManager.Common.pdb

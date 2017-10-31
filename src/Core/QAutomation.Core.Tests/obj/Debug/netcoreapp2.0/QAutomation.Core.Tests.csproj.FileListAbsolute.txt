@@ -1,0 +1,16 @@
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\xunit.runner.visualstudio.dotnetcore.testadapter.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\xunit.runner.utility.netstandard15.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\xunit.runner.reporters.netstandard15.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\QAutomation.Core.Tests.deps.json
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\QAutomation.Core.Tests.runtimeconfig.json
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\QAutomation.Core.Tests.runtimeconfig.dev.json
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\QAutomation.Core.Tests.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\QAutomation.Core.Tests.pdb
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\QAutomation.Core.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\bin\Debug\netcoreapp2.0\QAutomation.Core.pdb
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\obj\Debug\netcoreapp2.0\QAutomation.Core.Tests.csprojResolveAssemblyReference.cache
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\obj\Debug\netcoreapp2.0\QAutomation.Core.Tests.csproj.CoreCompileInputs.cache
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\obj\Debug\netcoreapp2.0\QAutomation.Core.Tests.AssemblyInfoInputs.cache
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\obj\Debug\netcoreapp2.0\QAutomation.Core.Tests.AssemblyInfo.cs
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\obj\Debug\netcoreapp2.0\QAutomation.Core.Tests.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Tests\obj\Debug\netcoreapp2.0\QAutomation.Core.Tests.pdb

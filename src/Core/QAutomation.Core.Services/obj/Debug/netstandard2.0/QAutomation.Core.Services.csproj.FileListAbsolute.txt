@@ -1,0 +1,13 @@
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\bin\Debug\netstandard2.0\QAutomation.Core.Services.deps.json
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\bin\Debug\netstandard2.0\QAutomation.Core.Services.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\bin\Debug\netstandard2.0\QAutomation.Core.Services.pdb
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\bin\Debug\netstandard2.0\QAutomation.Core.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\bin\Debug\netstandard2.0\QAutomation.Extensions.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\bin\Debug\netstandard2.0\QAutomation.Core.pdb
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\bin\Debug\netstandard2.0\QAutomation.Extensions.pdb
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\obj\Debug\netstandard2.0\QAutomation.Core.Services.csprojResolveAssemblyReference.cache
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\obj\Debug\netstandard2.0\QAutomation.Core.Services.csproj.CoreCompileInputs.cache
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\obj\Debug\netstandard2.0\QAutomation.Core.Services.AssemblyInfoInputs.cache
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\obj\Debug\netstandard2.0\QAutomation.Core.Services.AssemblyInfo.cs
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\obj\Debug\netstandard2.0\QAutomation.Core.Services.dll
+C:\dev\LabManager\src\Core\QAutomation.Core.Services\obj\Debug\netstandard2.0\QAutomation.Core.Services.pdb

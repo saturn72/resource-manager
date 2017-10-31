@@ -1,0 +1,12 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="LiteDB" Version="4.0.0" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\LabManager.Services\LabManager.Services.csproj" />
+    <ProjectReference Include="..\LabManager.Common\LabManager.Common.csproj" />
+  </ItemGroup>
+</Project>

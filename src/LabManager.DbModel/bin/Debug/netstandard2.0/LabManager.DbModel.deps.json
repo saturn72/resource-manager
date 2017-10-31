@@ -1,0 +1,255 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": "e249b70edaf32c2416733f38e5338938b7ba4011"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "LabManager.DbModel/1.0.0": {
+        "dependencies": {
+          "LabManager.Common": "1.0.0",
+          "LabManager.Services": "1.0.0",
+          "LiteDB": "4.0.0",
+          "NETStandard.Library": "2.0.0"
+        },
+        "runtime": {
+          "LabManager.DbModel.dll": {}
+        }
+      },
+      "LiteDB/4.0.0": {
+        "dependencies": {
+          "System.Reflection": "4.3.0",
+          "System.Reflection.TypeExtensions": "4.3.0",
+          "System.Threading.Thread": "4.0.0"
+        },
+        "runtime": {
+          "lib/netstandard2.0/LiteDB.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "Microsoft.NETCore.Targets/1.1.0": {},
+      "NETStandard.Library/2.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "System.IO/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0",
+          "System.Text.Encoding": "4.3.0",
+          "System.Threading.Tasks": "4.3.0"
+        }
+      },
+      "System.Reflection/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.IO": "4.3.0",
+          "System.Reflection.Primitives": "4.3.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Reflection.Primitives/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Reflection.TypeExtensions/4.3.0": {
+        "dependencies": {
+          "System.Reflection": "4.3.0",
+          "System.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.5/System.Reflection.TypeExtensions.dll": {}
+        }
+      },
+      "System.Runtime/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0"
+        }
+      },
+      "System.Text.Encoding/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Threading.Tasks/4.3.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0",
+          "Microsoft.NETCore.Targets": "1.1.0",
+          "System.Runtime": "4.3.0"
+        }
+      },
+      "System.Threading.Thread/4.0.0": {
+        "dependencies": {
+          "System.Runtime": "4.3.0"
+        },
+        "runtime": {
+          "lib/netstandard1.3/System.Threading.Thread.dll": {}
+        }
+      },
+      "LabManager.Common/1.0.0": {
+        "dependencies": {
+          "QAutomation.Core": "1.0.0"
+        },
+        "runtime": {
+          "LabManager.Common.dll": {}
+        }
+      },
+      "LabManager.Services/1.0.0": {
+        "dependencies": {
+          "LabManager.Common": "1.0.0",
+          "QAutomation.Core.Services": "1.0.0",
+          "QAutomation.Extensions": "1.0.0"
+        },
+        "runtime": {
+          "LabManager.Services.dll": {}
+        }
+      },
+      "QAutomation.Core/1.0.0": {
+        "runtime": {
+          "QAutomation.Core.dll": {}
+        }
+      },
+      "QAutomation.Core.Services/1.0.0": {
+        "dependencies": {
+          "QAutomation.Core": "1.0.0",
+          "QAutomation.Extensions": "1.0.0"
+        },
+        "runtime": {
+          "QAutomation.Core.Services.dll": {}
+        }
+      },
+      "QAutomation.Extensions/1.0.0": {
+        "runtime": {
+          "QAutomation.Extensions.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "LabManager.DbModel/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LiteDB/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6TaAxcLvcuBr6jjsOAlp3y0AiumECyq/yCiuo3pODtqWGJVOE8fZOjgh/zztchuisTs3M5JMUa1zG/6rzeyOag==",
+      "path": "litedb/4.0.0",
+      "hashPath": "litedb.4.0.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HIhIjEDrKN4CoCqXKG5b5aDXTOyn0oI5hglnASy3TZbRwg7U0rmE3CrmvDGWDwJFvtpyiAZdGmP9XsRY7lPZjA==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "Microsoft.NETCore.Targets/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-6ovL8A/71GlHaZKrVdnDllby8Tsu8LyTWANwDVdfgki3GWQrZrFHTbvRpN14WWFH4On4hU3L60nRwF58Bxouqw==",
+      "path": "microsoft.netcore.targets/1.1.0",
+      "hashPath": "microsoft.netcore.targets.1.1.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
+      "path": "netstandard.library/2.0.0",
+      "hashPath": "netstandard.library.2.0.0.nupkg.sha512"
+    },
+    "System.IO/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NuDxapkVdSkdSUV//SvOUlvqu2XwB1hgJn5epT+HLmd8vGQwf5i/2TcAhWw8Gz0azyCELFGYUtVutINR3V5B6w==",
+      "path": "system.io/4.3.0",
+      "hashPath": "system.io.4.3.0.nupkg.sha512"
+    },
+    "System.Reflection/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-bPVuyfwnp2Wire8Mf6xIwNRdtPZXnhGXJvLLZrUm/9MCF+AmdndcLUraIv0+9DPXk8N6lyPB1j89F1YzzW4pUA==",
+      "path": "system.reflection/4.3.0",
+      "hashPath": "system.reflection.4.3.0.nupkg.sha512"
+    },
+    "System.Reflection.Primitives/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-NJGFK5hiHPCzsJOHG/thi2Dp8DIJ6c0bOpKa2Qyk/LB9Z3hBD21HCKGpICMl+DamrwhLeCcy8UZs3fqLlo3AKA==",
+      "path": "system.reflection.primitives/4.3.0",
+      "hashPath": "system.reflection.primitives.4.3.0.nupkg.sha512"
+    },
+    "System.Reflection.TypeExtensions/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-VqMDgzmZ620tKnr6xyzf5xkRwuMlb3owGfNSwSPorSAoihbYLrPJvYMbLsfrrv41Oql7dnNJFUw+5/XjuvpqxA==",
+      "path": "system.reflection.typeextensions/4.3.0",
+      "hashPath": "system.reflection.typeextensions.4.3.0.nupkg.sha512"
+    },
+    "System.Runtime/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-sulUCNnDAgL6B7H1+v3Li4OiAtNyYpdJvamgCMS/iaTqi7oeh+V8TYAg8d03wiL5Paxhb+wYuj2zQ/R2Y52bAQ==",
+      "path": "system.runtime/4.3.0",
+      "hashPath": "system.runtime.4.3.0.nupkg.sha512"
+    },
+    "System.Text.Encoding/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-TaB72DOS1uujMXe91FYXCx4i6CtCVZBSq8u5xQKacKB17PdLhG7h3zJAIcb4/8nomIxIskQyd3QFHgje9vSnAQ==",
+      "path": "system.text.encoding/4.3.0",
+      "hashPath": "system.text.encoding.4.3.0.nupkg.sha512"
+    },
+    "System.Threading.Tasks/4.3.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-vjMMPMd+pWBQRggSpK+rz7jfyCwBRFXIRnq0jAAxvw0ps+vomm45HTXtLJV3A/n19Wh3WNguGeNijpG94y6L+w==",
+      "path": "system.threading.tasks/4.3.0",
+      "hashPath": "system.threading.tasks.4.3.0.nupkg.sha512"
+    },
+    "System.Threading.Thread/4.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-oWwH4moPS0DU2+iP3ufMdo2wzNhH1NJ7zr8uqeA1mYYRBieh1CPfpmViZGvj9IkG+6LEUrALgjxtArF0tqUxuw==",
+      "path": "system.threading.thread/4.0.0",
+      "hashPath": "system.threading.thread.4.0.0.nupkg.sha512"
+    },
+    "LabManager.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "LabManager.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QAutomation.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QAutomation.Core.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QAutomation.Extensions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}

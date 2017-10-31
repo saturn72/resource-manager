@@ -1,0 +1,97 @@
+{
+  "runtimeTarget": {
+    "name": ".NETStandard,Version=v2.0/",
+    "signature": "d5ef1509ab9594c5ee7350d5e7860d93d6b54c43"
+  },
+  "compilationOptions": {},
+  "targets": {
+    ".NETStandard,Version=v2.0": {},
+    ".NETStandard,Version=v2.0/": {
+      "LabManager.Services/1.0.0": {
+        "dependencies": {
+          "LabManager.Common": "1.0.0",
+          "NETStandard.Library": "2.0.0",
+          "QAutomation.Core.Services": "1.0.0",
+          "QAutomation.Extensions": "1.0.0"
+        },
+        "runtime": {
+          "LabManager.Services.dll": {}
+        }
+      },
+      "Microsoft.NETCore.Platforms/1.1.0": {},
+      "NETStandard.Library/2.0.0": {
+        "dependencies": {
+          "Microsoft.NETCore.Platforms": "1.1.0"
+        }
+      },
+      "LabManager.Common/1.0.0": {
+        "dependencies": {
+          "QAutomation.Core": "1.0.0"
+        },
+        "runtime": {
+          "LabManager.Common.dll": {}
+        }
+      },
+      "QAutomation.Core/1.0.0": {
+        "runtime": {
+          "QAutomation.Core.dll": {}
+        }
+      },
+      "QAutomation.Core.Services/1.0.0": {
+        "dependencies": {
+          "QAutomation.Core": "1.0.0",
+          "QAutomation.Extensions": "1.0.0"
+        },
+        "runtime": {
+          "QAutomation.Core.Services.dll": {}
+        }
+      },
+      "QAutomation.Extensions/1.0.0": {
+        "runtime": {
+          "QAutomation.Extensions.dll": {}
+        }
+      }
+    }
+  },
+  "libraries": {
+    "LabManager.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "Microsoft.NETCore.Platforms/1.1.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-HIhIjEDrKN4CoCqXKG5b5aDXTOyn0oI5hglnASy3TZbRwg7U0rmE3CrmvDGWDwJFvtpyiAZdGmP9XsRY7lPZjA==",
+      "path": "microsoft.netcore.platforms/1.1.0",
+      "hashPath": "microsoft.netcore.platforms.1.1.0.nupkg.sha512"
+    },
+    "NETStandard.Library/2.0.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-7jnbRU+L08FXKMxqUflxEXtVymWvNOrS8yHgu9s6EM8Anr6T/wIX4nZ08j/u3Asz+tCufp3YVwFSEvFTPYmBPA==",
+      "path": "netstandard.library/2.0.0",
+      "hashPath": "netstandard.library.2.0.0.nupkg.sha512"
+    },
+    "LabManager.Common/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QAutomation.Core/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QAutomation.Core.Services/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    },
+    "QAutomation.Extensions/1.0.0": {
+      "type": "project",
+      "serviceable": false,
+      "sha512": ""
+    }
+  }
+}
