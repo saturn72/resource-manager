@@ -1,9 +1,10 @@
+
 using QAutomation.Core.Domain;
 
 namespace QAutomation.Core.Services
 {
     public sealed class ServiceResponse<TDomainModel>
-    where TDomainModel : DomainModelBase
+        where TDomainModel:DomainModelBase
     {
         public ServiceResponse(TDomainModel model, ServiceRequestType requestType)
         {

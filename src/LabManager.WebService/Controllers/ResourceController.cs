@@ -12,8 +12,7 @@ using QAutomation.Core.Services;
 
 namespace LabManager.WebService.Controllers
 {
-    [Route("api/[controller]")]
-    public class ResourceController : Controller
+    public class ResourceController : ControllerBase
     {
         #region Fields
         private readonly IResourceService _resourceService;
