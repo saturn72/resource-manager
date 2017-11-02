@@ -1,7 +1,8 @@
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using LabManager.Common.Domain.Resource;
 using LabManager.Services.Resources;
-using QAutomation.Extensions;
 
 namespace LabManager.DbModel.Repositories
 {
@@ -36,12 +37,15 @@ namespace LabManager.DbModel.Repositories
             return res;
         }
 
-
-
         public ResourceModel GetById(long id)
         {
             return _dbAdapter.GetById<ResourceModel>(id);
         }
 
+
+        public IEnumerable<ResourceModel> GetBy(Func<ResourceModel, bool> query)
+        {
+            return _dbAdapter.GetBy(query);
+        }
     }
 }

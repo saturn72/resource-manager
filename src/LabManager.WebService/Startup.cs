@@ -3,6 +3,7 @@ using LabManager.DbModel;
 using LabManager.DbModel.Infrastructure;
 using LabManager.DbModel.Repositories;
 using LabManager.Services.Resources;
+using LabManager.Services.Runtime;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -44,6 +45,8 @@ namespace LabManager.WebService
 
             services.AddScoped<IResourceService, ResourceService>();
             services.AddScoped<IResourceRepository, ResourceRepository>();
+
+            services.AddScoped<IRuntimeManager, RuntimeManager>();
 
             const string dbName = "lab-manager.db";
             LiteDbMapper.Map(dbName);

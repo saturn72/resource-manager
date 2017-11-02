@@ -31,7 +31,7 @@ namespace LabManager.Services.Tests.Resource
         }
 
         [Fact]
-        public async Task ResourceService_GetAllAsync_Passes()
+        public async Task ResourceService_GetAllAsync_NoFilter_Passes()
         {
             var expRes = new ResourceModel[]{
                 new ResourceModel{FriendlyName = "fn1"},
@@ -52,6 +52,30 @@ namespace LabManager.Services.Tests.Resource
         }
 
         [Fact]
+        public async Task ResourceService_GetAllAsync_Filter_Passes()
+        {
+            var expRes = new ResourceModel[]{
+                new ResourceModel{FriendlyName = "fn1"},
+                new ResourceModel{FriendlyName = "fn2"},
+                new ResourceModel{FriendlyName = "fn3"},
+                new ResourceModel{FriendlyName = "fn4"},
+            };
+            var resRepo = new Mock<IResourceRepository>();
+            var srv = new ResourceService(resRepo.Object, null);
+
+            resRepo.Setup(r => r.GetBy(It.IsAny<Func<ResourceModel, bool>>())).Returns(expRes as IEnumerable<ResourceModel>);
+            var col = (await srv.GetAllAsync(new ResourceModel{
+                    FriendlyName = "fn1"}));
+            col.Count().ShouldBe(expRes.Length);
+            var names = expRes.Select(s => s.FriendlyName);
+
+            foreach (var c in col)
+                names.ShouldContain(c.FriendlyName);
+        }
+
+
+
+        [Fact]
         public async Task ResourceService_Add_Fails()
         {
             var resRepo = new Mock<IResourceRepository>();
@@ -66,6 +90,16 @@ namespace LabManager.Services.Tests.Resource
             actual.RequestType.ShouldBe(ServiceRequestType.Create);
 
             toCreate = new ResourceModel { };
+            actual = await srv.CreateAsync(toCreate);
+
+            actual.Model.ShouldNotBeNull();
+            actual.HasErrors().ShouldBeTrue();
+            actual.Result.ShouldBe(ServiceResponseResult.Fail);
+            actual.RequestType.ShouldBe(ServiceRequestType.Create);
+
+            //friendly name already exists
+            toCreate = new ResourceModel { FriendlyName = "duplicate-name"};
+            resRepo.Setup(r => r.GetBy(It.IsAny<Func<ResourceModel, bool>>())).Returns(new[] {new ResourceModel()});
             actual = await srv.CreateAsync(toCreate);
 
             actual.Model.ShouldNotBeNull();

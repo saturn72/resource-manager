@@ -2,8 +2,7 @@
 
 namespace LabManager.WebService.Controllers
 {
-    [Produces("application/json")]
-    [Route("api/Runtime")]
+    [Route("api/[controller]")]
     public class ControllerBase:Controller
     {
     }

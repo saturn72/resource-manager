@@ -1,7 +1,9 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Linq.Expressions;
 using LiteDB;
 using QAutomation.Core.Domain;
-using System.Linq;
 
 namespace LabManager.DbModel
 {
@@ -35,10 +37,17 @@ namespace LabManager.DbModel
             return dbAdapter.Query(db => GetCollection<TDomainModel>(db).FindById(id));
         }
 
+        public static IEnumerable<TDomainModel> GetBy<TDomainModel>(this IDbAdapter dbAdapter,
+            Func<TDomainModel, bool> query)
+            where TDomainModel : DomainModelBase
+        {
+            var all = dbAdapter.GetAll<TDomainModel>();
+            return all.Where(query).ToArray();
+        }
+
         public static void Create<TDomainModel>(this IDbAdapter dbAdapter, TDomainModel model)
             where TDomainModel : DomainModelBase
         {
-
             dbAdapter.Command(db =>
             {
                 var col = GetCollection<TDomainModel>(db);

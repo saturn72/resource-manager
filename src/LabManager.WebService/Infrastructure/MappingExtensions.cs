@@ -10,7 +10,7 @@ namespace LabManager.WebService.Infrastructure
         #region ResourceMocel <==> Resource ApiModel
         public static IEnumerable<ResourceApiModel> ToApiModel(this IEnumerable<ResourceModel> source)
         {
-            return source.Select(s => ToApiModel(s));
+            return source.Select(ToApiModel);
         }
         public static ResourceApiModel ToApiModel(this ResourceModel source)
         {
@@ -19,7 +19,8 @@ namespace LabManager.WebService.Infrastructure
                 Id = source.Id,
                 FriendlyName = source.FriendlyName,
                 IpAddress = source.IpAddress,
-                Status = source.Status
+                Status = source.Status,
+                Active = source.Active,
             };
         }
 
@@ -30,6 +31,7 @@ namespace LabManager.WebService.Infrastructure
                 Id = includeId ? source.Id : default(long),
                 
                 FriendlyName = source.FriendlyName,
+                Active = source.Active,
                 IpAddress = source.IpAddress,
             };
         }

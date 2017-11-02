@@ -8,6 +8,7 @@ using LabManager.WebService.Infrastructure;
 using LabManager.Services.Runtime;
 using QAutomation.Core.Services;
 using LabManager.Common.Domain.Runtime;
+using System.Linq;
 
 namespace LabManager.WebService.Controllers
 {
@@ -32,12 +33,12 @@ namespace LabManager.WebService.Controllers
         {
             var srvRes = await _runtimeManager.AssignResourceAsync(filter?.ToModel());
 
-            return CheckIfReponseSucceseed(srvRes)
-                ? Accepted(srvRes.Model.SessionId as string, srvRes.Model.Resource.ToApiModel())
+            return CheckIfGetReponseSucceseed(srvRes)
+                ? Accepted(srvRes.Model.SessionId as string, srvRes.Model.Resources.First().ToApiModel())
                 : new NotFoundObjectResult(filter) as IActionResult;
         }
 
-        private bool CheckIfReponseSucceseed(ServiceResponse<RuntimeSession>  serviceResponse)
+        private bool CheckIfGetReponseSucceseed(ServiceResponse<RuntimeSession>  serviceResponse)
         {
             var resModel = serviceResponse?.Model;
 
@@ -45,7 +46,7 @@ namespace LabManager.WebService.Controllers
                    && serviceResponse.Result == ServiceResponseResult.Success 
                    && resModel.NotNull() 
                    && resModel.SessionId.HasValue() 
-                   && resModel.Resource.NotNull();
+                   && !resModel.Resources.IsEmptyOrNull();
         }
     }
 }

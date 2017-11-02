@@ -31,12 +31,12 @@ namespace LabManager.WebService.Tests.Controllers
             var ctrl = new ResourceController(resSrv.Object);
 
             //null as collection --> throws
-            resSrv.Setup(s => s.GetAllAsync()).ReturnsAsync(null as IEnumerable<ResourceModel>);
+            resSrv.Setup(s => s.GetAllAsync(It.IsAny<ResourceModel>())).ReturnsAsync(null as IEnumerable<ResourceModel>);
             Should.Throw<ArgumentNullException>(() => ctrl.GetAllAsync());
 
             //Empty Collection
             resSrv.Reset();
-            resSrv.Setup(s => s.GetAllAsync()).Returns(Task.FromResult(new ResourceModel[] { } as IEnumerable<ResourceModel>));
+            resSrv.Setup(s => s.GetAllAsync(It.IsAny<ResourceModel>())).Returns(Task.FromResult(new ResourceModel[] { } as IEnumerable<ResourceModel>));
             var res = await ctrl.GetAllAsync();
             var content = Assert.IsType<OkObjectResult>(res);
 
@@ -56,7 +56,7 @@ namespace LabManager.WebService.Tests.Controllers
             var resSrv = new Mock<IResourceService>();
             var ctrl = new ResourceController(resSrv.Object);
 
-            resSrv.Setup(s => s.GetAllAsync()).Returns(Task.FromResult(expRes as IEnumerable<ResourceModel>));
+            resSrv.Setup(s => s.GetAllAsync(It.IsAny<ResourceModel>())).Returns(Task.FromResult(expRes as IEnumerable<ResourceModel>));
             var res = await ctrl.GetAllAsync();
             var content = Assert.IsType<OkObjectResult>(res);
 

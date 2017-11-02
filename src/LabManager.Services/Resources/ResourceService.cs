@@ -10,23 +10,30 @@ namespace LabManager.Services.Resources
 {
     public class ResourceService : IResourceService
     {
-        #region Fields
-        private readonly IResourceRepository _resourceRespository;
-        private readonly IEventPublisher _eventPublisher;
-
-        #endregion
         #region ctor
+
         public ResourceService(IResourceRepository resourceRepository, IEventPublisher eventPublisher)
         {
             _resourceRespository = resourceRepository;
             _eventPublisher = eventPublisher;
         }
 
+        #endregion
+
+        #region Fields
+
+        private readonly IResourceRepository _resourceRespository;
+        private readonly IEventPublisher _eventPublisher;
+
+        #endregion
+
+        #region Create
+
         public Task<ServiceResponse<ResourceModel>> CreateAsync(ResourceModel model)
         {
-            var srvRes = new ServiceResponse<ResourceModel> (model, ServiceRequestType.Create);
+            var srvRes = new ServiceResponse<ResourceModel>(model, ServiceRequestType.Create);
             ValidateModelForCreate(model, srvRes);
-            if(srvRes.HasErrors())
+            if (srvRes.HasErrors())
                 return Task.FromResult(srvRes);
 
             return Task.Run(() =>
@@ -53,9 +60,15 @@ namespace LabManager.Services.Resources
             }
             if (!model.FriendlyName.HasValue())
             {
-                serviceResponse.ErrorMessage = "Resource Friendly name is required.";
+                serviceResponse.ErrorMessage = "Resource Friendly name is required";
                 serviceResponse.Result = ServiceResponseResult.Fail;
             }
+            if(!_resourceRespository.GetBy(x=>x.FriendlyName == model.FriendlyName && x.Active).IsEmptyOrNull())
+            {
+                serviceResponse.ErrorMessage = "Friendly name already exists";
+                serviceResponse.Result = ServiceResponseResult.Fail;
+            }
+
             if (!model.IpAddress.HasValue())
             {
                 serviceResponse.ErrorMessage = "Resource IP Address is required.";
@@ -64,14 +77,24 @@ namespace LabManager.Services.Resources
         }
 
         #endregion
-        public Task<IEnumerable<ResourceModel>> GetAllAsync()
+
+        #region Read
+
+        public async Task<IEnumerable<ResourceModel>> GetAllAsync(ResourceModel filter = null)
         {
-            return Task.Run(() => _resourceRespository.GetAll() ?? new ResourceModel[] { });
+            Func<IEnumerable<ResourceModel>> query = () =>
+                filter.IsNull()
+                    ? _resourceRespository.GetAll()
+                    : _resourceRespository.GetBy(filter);
+
+            return await Task.FromResult(query() ?? new ResourceModel[] { });
         }
 
-        public Task<ResourceModel> GetById(long id)
+        public async Task<ResourceModel> GetById(long id)
         {
-            return Task.Run(() => _resourceRespository.GetById(id));
+            return await Task.Run(() => _resourceRespository.GetById(id));
         }
+
+        #endregion
     }
 }

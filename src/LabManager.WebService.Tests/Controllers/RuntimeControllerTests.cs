@@ -25,6 +25,8 @@ namespace LabManager.WebService.Tests.Controllers
         [Fact]
         public async Task RuntimeController_GetAsync_Fails_AllPermutations()
         {
+            var sessionId = "session-id";
+            var runtimeSession = new RuntimeSession(sessionId);
             var possibleFaultyServiceResponses = new[]
             {
                 //null response
@@ -32,11 +34,17 @@ namespace LabManager.WebService.Tests.Controllers
                 //null model return
                 new ServiceResponse<RuntimeSession>(null, ServiceRequestType.Read),
                 //missing session Id
-                new ServiceResponse<RuntimeSession>(new RuntimeSession(), ServiceRequestType.Read),
+                new ServiceResponse<RuntimeSession>(runtimeSession, ServiceRequestType.Read),
                 //un-successful result
-                new ServiceResponse<RuntimeSession>(new RuntimeSession(){SessionId = "123", Resource = new ResourceModel()}, ServiceRequestType.Read),
+                new ServiceResponse<RuntimeSession>(runtimeSession, ServiceRequestType.Read)
+                {
+                    Model = new RuntimeSession(sessionId){Resources = new []{new ResourceModel()}},
+                },
                 //missing resource
-                new ServiceResponse<RuntimeSession>(new RuntimeSession(){SessionId = "123", Resource = null}, ServiceRequestType.Read),
+                new ServiceResponse<RuntimeSession>(runtimeSession, ServiceRequestType.Read)
+                {
+                    Model = runtimeSession
+                }
 
             };
 
@@ -51,7 +59,7 @@ namespace LabManager.WebService.Tests.Controllers
                 FriendlyName = "123"
             };
             var rm = new Mock<IRuntimeManager>();
-            rm.Setup(r => r.AssignResourceAsync(It.IsAny<ResourceModel>())).Returns(() => Task.FromResult(srvRes));
+            rm.Setup(r => r.AssignResourceAsync(It.IsAny<ResourceModel>(), It.IsAny<bool>())).Returns(() => Task.FromResult(srvRes));
             var runtimeCtrl = new RuntimeController(rm.Object);
 
             var res1 = await runtimeCtrl.GetAsync(filter);
@@ -67,25 +75,28 @@ namespace LabManager.WebService.Tests.Controllers
                 FriendlyName = "123"
             };
 
-            var expResource = new ResourceModel
+            var expResource = new[]
             {
-                Id = 222
+                new ResourceModel
+                {
+                    Id = 222
+                }
             };
 
             var srvRes = new ServiceResponse<RuntimeSession>(
-                    new RuntimeSession() {SessionId = "123", Resource = expResource}, ServiceRequestType.Read)
+                    new RuntimeSession( "123"){ Resources = expResource}, ServiceRequestType.Read)
                 {
                     Result = ServiceResponseResult.Success
                 };
             var rm = new Mock<IRuntimeManager>();
-            rm.Setup(r => r.AssignResourceAsync(It.IsAny<ResourceModel>())).Returns(() => Task.FromResult(srvRes));
+            rm.Setup(r => r.AssignResourceAsync(It.IsAny<ResourceModel>(), It.IsAny<bool>())).Returns(() => Task.FromResult(srvRes));
             var runtimeCtrl = new RuntimeController(rm.Object);
 
             var res1 = await runtimeCtrl.GetAsync(filter);
             var content1 = res1.ShouldBeOfType<AcceptedResult>();
             var actualApiModel = content1.Value as ResourceApiModel;
             actualApiModel.ShouldNotBeNull();
-            actualApiModel.Id.ShouldBe(expResource.Id);
+            actualApiModel.Id.ShouldBe(expResource[0].Id);
         }
         #endregion
     }

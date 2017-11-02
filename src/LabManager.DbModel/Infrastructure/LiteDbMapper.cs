@@ -9,13 +9,23 @@ namespace LabManager.DbModel.Infrastructure
         {
             using (var db = new LiteDatabase(dbName))
             {
-                //var col = db.GetCollection<ResourceModel>(LiteDbEntitiesNames.EntityToDocumentName[typeof(ResourceModel)]);
-                //col.
                 var entity = BsonMapper.Global.Entity<ResourceModel>();
                 entity.Id(x => x.Id);
                 entity.Ignore(x => x.Status);
+
+                EnsureIndexes(db);
             }
-           
+        }
+
+        private static void EnsureIndexes(LiteDatabase db)
+        {
+            var col = GetCollection<ResourceModel>(db);
+            col.EnsureIndex(s => s.IpAddress);
+        }
+
+        private static LiteCollection<T> GetCollection<T>(LiteDatabase db)
+        {
+            return db.GetCollection<T>(LiteDbEntitiesNames.EntityToDocumentName[typeof(T)]);
         }
     }
 }

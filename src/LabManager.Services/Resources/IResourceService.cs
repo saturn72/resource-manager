@@ -7,7 +7,7 @@ namespace LabManager.Services.Resources
 {
     public interface IResourceService
     {
-        Task<IEnumerable<ResourceModel>> GetAllAsync();
+        Task<IEnumerable<ResourceModel>> GetAllAsync(ResourceModel filter = null);
         Task<ServiceResponse<ResourceModel>> CreateAsync(ResourceModel model);
         Task<ResourceModel> GetById(long id);
     }

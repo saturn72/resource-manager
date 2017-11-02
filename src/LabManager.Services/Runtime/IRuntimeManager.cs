@@ -7,6 +7,6 @@ namespace LabManager.Services.Runtime
 {
     public interface IRuntimeManager
     {
-        Task<ServiceResponse<RuntimeSession>> AssignResourceAsync(ResourceModel filter);
+        Task<ServiceResponse<RuntimeSession>> AssignResourceAsync(ResourceModel filter, bool availableOnly = true);
     }
 }
