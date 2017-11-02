@@ -10,7 +10,9 @@ namespace LabManager.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
-        internal abstract string Resource { get; }
+        protected readonly HttpClient Client;
+        protected readonly TestServer Server;
+
         protected IntegrationTestBase()
         {
             Server = new TestServer(new WebHostBuilder()
@@ -18,8 +20,7 @@ namespace LabManager.IntegrationTests
             Client = Server.CreateClient();
         }
 
-        protected readonly HttpClient Client;
-        protected readonly TestServer Server;
+        internal abstract string Resource { get; }
 
         protected HttpRequestMessage BuildRequest(HttpMethod httpMethod, string relativeUri, object content)
         {
@@ -39,15 +40,23 @@ namespace LabManager.IntegrationTests
 
         protected async Task<JObject> ExtractJObject(HttpResponseMessage httpResponse)
         {
-            var content = await ContentToString(httpResponse);
-
-            return JObject.Parse(content);
+            return ExtractJObject(await ContentToString(httpResponse));
         }
+
+        protected static JObject ExtractJObject(object obj)
+        {
+            return obj is string ? JObject.Parse(obj as string) : JObject.FromObject(obj);
+        }
+
 
         protected async Task<JArray> ExtractJArray(HttpResponseMessage httpResponse)
         {
-            var content = await ContentToString(httpResponse);
-            return JArray.Parse(content);
+            return ExtractJArray(await ContentToString(httpResponse));
+        }
+
+        protected static JArray ExtractJArray(object obj)
+        {
+            return obj is string ? JArray.Parse(obj as string) : JArray.FromObject(obj);
         }
 
         private async Task<string> ContentToString(HttpResponseMessage httpResponse)

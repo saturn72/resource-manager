@@ -16,9 +16,15 @@ namespace LabManager.Services.Tests.Runtime
         [Fact]
         public async Task RuntimeManager_AssignResourceAsync_DoesNotFetchItems()
         {
-            var filter = new ResourceModel
+            var assReq = new ResourceAssignmentRequest
             {
-                Id = 123
+                RequiredResources = new[]
+                {
+                    new ResourceModel
+                    {
+                        Id = 123
+                    }
+                }
             };
 
             var rsSrv = new Mock<IResourceService>();
@@ -26,13 +32,9 @@ namespace LabManager.Services.Tests.Runtime
                 .Returns(Task.FromResult(null as IEnumerable<ResourceModel>));
 
             var mgr = new RuntimeManager(rsSrv.Object);
-            var res = await mgr.AssignResourceAsync(filter);
+            var res = await mgr.RequestResourceAssignmentAsync(assReq);
             res.RequestType = ServiceRequestType.Read;
             res.Result.ShouldBe(ServiceResponseResult.Fail);
-
-            //does not get items
-            //
-            //gets item
         }
     }
 }

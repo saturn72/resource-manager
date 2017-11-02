@@ -1,13 +1,10 @@
-﻿using System;
-using System.Threading.Tasks;
-using QAutomation.Extensions;
-using LabManager.WebService.Models.Resources;
-using Microsoft.AspNetCore.Mvc;
-using LabManager.Services.Resources;
+﻿using System.Threading.Tasks;
 using LabManager.WebService.Infrastructure;
+using LabManager.WebService.Models.Runtime;
+using Microsoft.AspNetCore.Mvc;
 using LabManager.Services.Runtime;
 using QAutomation.Core.Services;
-using LabManager.Common.Domain.Runtime;
+using QAutomation.Extensions;
 using System.Linq;
 
 namespace LabManager.WebService.Controllers
@@ -28,24 +25,45 @@ namespace LabManager.WebService.Controllers
         }
 
         #endregion
-        [HttpGet]
-        public async Task<IActionResult> GetAsync([FromBody]ResourceApiModel filter)
-        {
-            var srvRes = await _runtimeManager.AssignResourceAsync(filter?.ToModel());
 
-            return CheckIfGetReponseSucceseed(srvRes)
-                ? Accepted(srvRes.Model.SessionId as string, srvRes.Model.Resources.First().ToApiModel())
-                : new NotFoundObjectResult(filter) as IActionResult;
+        [HttpGet]
+        public async Task<IActionResult> GetAsync([FromBody] ResourceAssignmentRequestApiModel assignRequest)
+        {
+            var srvRes = await _runtimeManager.RequestResourceAssignmentAsync(assignRequest.ToModel());
+
+            return CheckAssignResponse(srvRes)
+                ? Ok(new
+                {
+                    sessionId = srvRes.Model.SessionId,
+                    resources = srvRes.Model.Resources.ToApiModel().ToArray()
+                })
+                : new NotFoundObjectResult(assignRequest) as IActionResult;
         }
 
-        private bool CheckIfGetReponseSucceseed(ServiceResponse<RuntimeSession>  serviceResponse)
+        [HttpPost]
+        public async Task<IActionResult> PostAsync([FromBody] string sessionId)
+        {
+            var srvRes = await _runtimeManager.AssignResourcesAsync(sessionId);
+            return CheckAssignResponse(srvRes)
+                   && srvRes.Model.Status == ResourceAssignmentStatus.Assigned
+                ? Ok(sessionId)
+                : BadRequest(new
+                {
+                    sessionId = sessionId,
+                    message = srvRes?.ErrorMessage ?? "Unknown Error"
+                }) as IActionResult;
+            ;
+        }
+
+        private bool CheckAssignResponse(ServiceResponse<ResourceAssignmentResponse> serviceResponse)
         {
             var resModel = serviceResponse?.Model;
 
-            return serviceResponse.NotNull() 
-                   && serviceResponse.Result == ServiceResponseResult.Success 
-                   && resModel.NotNull() 
-                   && resModel.SessionId.HasValue() 
+            return serviceResponse.NotNull()
+                   && !serviceResponse.HasErrors()
+                   && serviceResponse.Result == ServiceResponseResult.Success
+                   && resModel.NotNull()
+                   && resModel.SessionId.HasValue()
                    && !resModel.Resources.IsEmptyOrNull();
         }
     }

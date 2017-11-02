@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Linq;
 using LabManager.Common.Domain.Resource;
 using LabManager.WebService.Models.Resources;
+using LabManager.WebService.Models.Runtime;
+using LabManager.Services.Runtime;
 
 namespace LabManager.WebService.Infrastructure
 {
@@ -12,6 +14,8 @@ namespace LabManager.WebService.Infrastructure
         {
             return source.Select(ToApiModel);
         }
+
+        
         public static ResourceApiModel ToApiModel(this ResourceModel source)
         {
             return new ResourceApiModel
@@ -23,7 +27,7 @@ namespace LabManager.WebService.Infrastructure
                 Active = source.Active,
             };
         }
-
+       
         public static ResourceModel ToModel(this ResourceApiModel source, bool includeId = false)
         {
             return new ResourceModel
@@ -36,6 +40,18 @@ namespace LabManager.WebService.Infrastructure
             };
         }
 
+        #endregion
+
+        #region ResourceAssignment
+
+        public static ResourceAssignmentRequest ToModel(this ResourceAssignmentRequestApiModel source)
+        {
+            return new ResourceAssignmentRequest
+            {
+                RequiredResources = source.RequiredResources.Select<ResourceApiModel, ResourceModel>(s => s.ToModel(true)),
+                ClientReferenceCode = source.ClientReferenceCode
+            };
+        }
         #endregion
     }
 }
