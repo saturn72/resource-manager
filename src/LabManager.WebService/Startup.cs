@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QAutomation.Core.Services.Caching;
 using QAutomation.Core.Services.Events;
 using QAutomation.Core.Services.Logging;
 using Swashbuckle.AspNetCore.Swagger;
@@ -38,6 +39,7 @@ namespace LabManager.WebService
         {
             //register core components
             services.AddSingleton<ILogger, DbLogger>();
+            services.AddSingleton<ICacheManager, MemoryCacheManager>();
             services.AddScoped<ILogRecordRepository, LogRecordRepository>();
 
             services.AddScoped<IEventPublisher, EventPublisher>();

@@ -1,9 +1,3 @@
-#region
-
-
-
-#endregion
-
 namespace QAutomation.Core.Services.Caching
 {
     public interface ICacheManager

@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
 using LabManager.Services.Resources;
 using QAutomation.Core.Services;
+using QAutomation.Core.Services.Caching;
 using QAutomation.Extensions;
 
 namespace LabManager.Services.Runtime
@@ -16,14 +17,16 @@ namespace LabManager.Services.Runtime
         #region Fields
 
         private readonly IResourceService _resourceService;
+        private readonly ICacheManager _cacheManager;
 
         #endregion
 
         #region ctor
 
-        public RuntimeManager(IResourceService resourceService)
+        public RuntimeManager(IResourceService resourceService, ICacheManager cacheManager)
         {
             _resourceService = resourceService;
+            _cacheManager = cacheManager;
         }
 
         #endregion

@@ -33,7 +33,7 @@ namespace LabManager.Services.Tests.Runtime
             rsSrv.Setup(r => r.GetAllAsync(It.IsAny<ResourceModel>()))
                 .Returns(Task.FromResult(null as IEnumerable<ResourceModel>));
 
-            var mgr = new RuntimeManager(rsSrv.Object);
+            var mgr = new RuntimeManager(rsSrv.Object, null);
             var res = await mgr.RequestResourceAssignmentAsync(assReq);
             res.RequestType = ServiceRequestType.Read;
             res.Result.ShouldBe(ServiceResponseResult.Fail);
@@ -62,7 +62,7 @@ namespace LabManager.Services.Tests.Runtime
             rsSrv.Setup(r => r.GetAllAsync(It.IsAny<ResourceModel>()))
                 .Returns(Task.FromResult(new []{new ResourceModel{Active = true}} as IEnumerable<ResourceModel>));
 
-            var mgr = new RuntimeManager(rsSrv.Object);
+            var mgr = new RuntimeManager(rsSrv.Object, null);
             var res = await mgr.RequestResourceAssignmentAsync(assReq);
             res.RequestType = ServiceRequestType.Read;
             res.Result.ShouldBe(ServiceResponseResult.Fail);
@@ -92,7 +92,7 @@ namespace LabManager.Services.Tests.Runtime
             rsSrv.Setup(r => r.GetAllAsync(It.IsAny<ResourceModel>()))
                 .Returns(Task.FromResult(resourceCollection as IEnumerable<ResourceModel>));
 
-            var mgr = new RuntimeManager(rsSrv.Object);
+            var mgr = new RuntimeManager(rsSrv.Object, null);
             var res = await mgr.RequestResourceAssignmentAsync(assReq);
             res.RequestType = ServiceRequestType.Read;
             res.Result.ShouldBe(ServiceResponseResult.Success);
@@ -106,7 +106,7 @@ namespace LabManager.Services.Tests.Runtime
         [Fact]
         public async Task RuntimeManager_AssignResourceAsync_EmptySession()
         {
-            var mgr = new RuntimeManager(null);
+            var mgr = new RuntimeManager(null, null);
             foreach (var sessionId in new[] {null, string.Empty, "", "   "})
             {
                 var srvRes = await mgr.AssignResourcesAsync(sessionId);
