@@ -43,7 +43,7 @@ namespace LabManager.Services.Runtime
                 ? requestedResource.Where(r => GetResourceAvailability(r.Id) == ResourceStatus.Available).ToArray()
                 : requestedResource;
             srvRes.Result = ServiceResponseResult.Success;
-
+            throw new NotImplementedException("Insert resources to cache");
             return srvRes;
         }
 
@@ -83,12 +83,16 @@ namespace LabManager.Services.Runtime
             var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Approve);
             if (!sessionId.HasValue())
             {
-                srvRes.ErrorMessage = "The specified session-id is empty.";
+                srvRes.ErrorMessage = "The specified session-id is empty";
+                return Task.FromResult(srvRes);
+            }
+            var resources = _cacheManager.Get<object>(sessionId);
+            if (resources.IsNull())
+            {
+                srvRes.ErrorMessage = "Session expired";
                 return Task.FromResult(srvRes);
             }
 
-
-            //Guard.HasValue(sessionId);
             //var key = string.Format(SessionCacheKeyFormat, sessionId);
             //_cacheManager.Get<
             throw new NotImplementedException();
