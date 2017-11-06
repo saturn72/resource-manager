@@ -28,38 +28,69 @@ namespace LabManager.Services.Runtime
 
         #endregion
 
+        #region RequestResourceAssignmentAsync
         public async Task<ServiceResponse<ResourceAssignmentResponse>> RequestResourceAssignmentAsync(ResourceAssignmentRequest assignRequest, bool availableOnly = true)
         {
             var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Read);
 
-            var allResources = new List<ResourceModel>();
-            foreach (var rr in assignRequest.RequiredResources)
-            {
-                var range = await _resourceService.GetAllAsync(rr);
-                if(range.IsEmptyOrNull())
-                    continue;
-                allResources.AddRange(range);
-            }
-
-            var resources = allResources?.Distinct();
-
-            if (resources.IsEmptyOrNull() || (resources = resources.Where(r => r.Active)).IsEmptyOrNull())
-            {
-                srvRes.Result = ServiceResponseResult.Fail;
+            var requestedResource = await GetRequestedResources(assignRequest);
+            ValidateRequestedResources(requestedResource, srvRes, assignRequest);
+            if (srvRes.HasErrors())
                 return srvRes;
-            }
 
             srvRes.Model = CreateResourceAssignmentResponse(assignRequest);
             srvRes.Model.Resources = availableOnly
-                ? resources.Where(r => GetResourceAvailability(r.Id) == ResourceStatus.Available).ToArray()
-                : resources;
+                ? requestedResource.Where(r => GetResourceAvailability(r.Id) == ResourceStatus.Available).ToArray()
+                : requestedResource;
             srvRes.Result = ServiceResponseResult.Success;
 
             return srvRes;
         }
 
+        private void ValidateRequestedResources(IEnumerable<ResourceModel> requestedResource, ServiceResponse<ResourceAssignmentResponse> serviceResponse, ResourceAssignmentRequest assignRequest)
+        {
+            if (requestedResource.IsEmptyOrNull())
+            {
+                serviceResponse.ErrorMessage = "No matching resources found";
+                serviceResponse.Result = ServiceResponseResult.Fail;
+                return;
+            }
+
+            if(requestedResource.Count()<assignRequest.RequiredResources.Count())
+            {
+                serviceResponse.ErrorMessage = "Insufficient Resources";
+                serviceResponse.Result = ServiceResponseResult.Fail;
+                return;
+            }
+        }
+
+        private async Task<IEnumerable<ResourceModel>> GetRequestedResources(ResourceAssignmentRequest assignRequest)
+        {
+            var allResources = new List<ResourceModel>();
+            foreach (var rr in assignRequest.RequiredResources)
+            {
+                var range = await _resourceService.GetAllAsync(rr);
+                if (range.IsEmptyOrNull())
+                    continue;
+                allResources.AddRange(range);
+            }
+            return allResources?.Distinct().Where(r=>r.Active);
+        }
+
+#endregion
         public Task<ServiceResponse<ResourceAssignmentResponse>> AssignResourcesAsync(string sessionId)
         {
+            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Approve);
+            if (!sessionId.HasValue())
+            {
+                srvRes.ErrorMessage = "The specified session-id is empty.";
+                return Task.FromResult(srvRes);
+            }
+
+
+            //Guard.HasValue(sessionId);
+            //var key = string.Format(SessionCacheKeyFormat, sessionId);
+            //_cacheManager.Get<
             throw new NotImplementedException();
         }
 
