@@ -36,8 +36,6 @@ namespace QAutomation.Core.Services
         {
             if (audit.IsNull())
                 return;
-            if (audit.CreatedOnUtc == default(DateTime))
-                PrepareForCreateAudity(audit);
 
             audit.UpdatedOnUtc = DateTime.UtcNow;
             audit.UpdatedByUserId = _workContext.CurrentUserId;

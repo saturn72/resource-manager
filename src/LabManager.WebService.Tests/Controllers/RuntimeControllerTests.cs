@@ -36,7 +36,7 @@ namespace LabManager.WebService.Tests.Controllers
                 .Returns(() => Task.FromResult(srvRes));
             var runtimeCtrl = new RuntimeController(rm.Object);
 
-            var res1 = await runtimeCtrl.GetAsync(assReq);
+            var res1 = await runtimeCtrl.RequestAssignment(assReq);
             var content1 = res1.ShouldBeOfType<NotFoundObjectResult>();
             (content1.Value as ResourceAssignmentRequestApiModel).ShouldBe(assReq);
         }
@@ -108,7 +108,7 @@ namespace LabManager.WebService.Tests.Controllers
                 .Returns(() => Task.FromResult(srvRes));
             var runtimeCtrl = new RuntimeController(rm.Object);
 
-            var res1 = await runtimeCtrl.GetAsync(filter);
+            var res1 = await runtimeCtrl.RequestAssignment(filter);
             var content1 = res1.ShouldBeOfType<OkObjectResult>();
             var jo = TestUtil.ExtractJObject(content1.Value);
             var actualResources = TestUtil.ExtractJArray(jo["resources"]);
@@ -178,7 +178,7 @@ namespace LabManager.WebService.Tests.Controllers
             rm.Setup(r => r.AssignResourcesAsync(It.IsAny<string>())).Returns(() => Task.FromResult(serviceResponse));
 
             var ctrl = new RuntimeController(rm.Object);
-            var res = await ctrl.PostAsync(sessionId);
+            var res = await ctrl.AssignSessionAsync(sessionId);
             var content = res.ShouldBeOfType<BadRequestObjectResult>();
             var jo = TestUtil.ExtractJObject(content.Value);
             ((string) jo["sessionId"]).ShouldBe(sessionId);
@@ -206,7 +206,7 @@ namespace LabManager.WebService.Tests.Controllers
             rm.Setup(r => r.AssignResourcesAsync(It.IsAny<string>())).Returns(Task.FromResult(srvRes));
 
             var ctrl = new RuntimeController(rm.Object);
-            var res = await ctrl.PostAsync(sessionId);
+            var res = await ctrl.AssignSessionAsync(sessionId);
             var content = res.ShouldBeOfType<OkObjectResult>();
             content.Value.ShouldBe(sessionId);
         }

@@ -54,7 +54,6 @@ namespace LabManager.DbModel
         public static void Update<TDomainModel>(this IDbAdapter dbAdapter, TDomainModel model)
             where TDomainModel : DomainModelBase
         {
-
             dbAdapter.Command(db =>
             {
                 GetCollection<TDomainModel>(db).Update(model);

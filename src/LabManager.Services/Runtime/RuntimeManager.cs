@@ -41,13 +41,12 @@ namespace LabManager.Services.Runtime
             if (srvRes.HasErrors())
                 return srvRes;
 
-            var model = srvRes.Model;
-            model = CreateResourceAssignmentResponse(assignRequest);
-            model.Resources = availableOnly
+            srvRes.Model = CreateResourceAssignmentResponse(assignRequest);
+            srvRes.Model.Resources = availableOnly
                 ? requestedResource.Where(r => GetResourceAvailability(r.Id) == ResourceStatus.Available).ToArray()
                 : requestedResource;
             srvRes.Result = ServiceResponseResult.Success;
-            _cacheManager.Set(model.SessionId, model);
+            _cacheManager.Set(srvRes.Model.SessionId, srvRes.Model);
             return srvRes;
         }
 
@@ -100,7 +99,10 @@ namespace LabManager.Services.Runtime
             }
 
             foreach (var resource in resAssignResponse.Resources)
+            {
+                resource.Status = ResourceStatus.Assigned;
                 await _resourceService.UpdateAsync(resource);
+            }
             srvRes.Result = ServiceResponseResult.Success;
             return srvRes;
         }

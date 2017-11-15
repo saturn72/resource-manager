@@ -29,8 +29,8 @@ namespace LabManager.WebService.Controllers
 
         #endregion
 
-        [HttpPost("assign-request")]
-        public async Task<IActionResult> GetAsync([FromBody]ResourceAssignmentRequestApiModel assignRequest)
+        [HttpPost]
+        public async Task<IActionResult> RequestAssignment([FromBody]ResourceAssignmentRequestApiModel assignRequest)
         {
             var srvRes = await _runtimeManager.RequestResourceAssignmentAsync(assignRequest.ToModel());
 
@@ -43,8 +43,8 @@ namespace LabManager.WebService.Controllers
                 : new NotFoundObjectResult(assignRequest) as IActionResult;
         }
 
-        [HttpPost("assign")]
-        public async Task<IActionResult> PostAsync([FromBody] string sessionId)
+        [HttpGet]
+        public async Task<IActionResult> AssignSessionAsync( string sessionId)
         {
             var srvRes = await _runtimeManager.AssignResourcesAsync(sessionId);
             return CheckAssignResponse(srvRes)
