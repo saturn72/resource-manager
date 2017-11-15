@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
 using QAutomation.Core.Services;
+using QAutomation.Core.Services.Caching;
 using QAutomation.Core.Services.Events;
 using QAutomation.Extensions;
 
@@ -12,10 +13,12 @@ namespace LabManager.Services.Resources
     {
         #region ctor
 
-        public ResourceService(IResourceRepository resourceRepository, IEventPublisher eventPublisher)
+        public ResourceService(IResourceRepository resourceRepository, IEventPublisher eventPublisher, AuditHelper auditHelper, ICacheManager cacheManager)
         {
             _resourceRespository = resourceRepository;
             _eventPublisher = eventPublisher;
+            _auditHelper = auditHelper;
+            _cacheManager = cacheManager;
         }
 
         #endregion
@@ -24,6 +27,8 @@ namespace LabManager.Services.Resources
 
         private readonly IResourceRepository _resourceRespository;
         private readonly IEventPublisher _eventPublisher;
+        private readonly AuditHelper _auditHelper;
+        private readonly ICacheManager _cacheManager;
 
         #endregion
 
@@ -38,6 +43,7 @@ namespace LabManager.Services.Resources
 
             return Task.Run(() =>
             {
+                _auditHelper.PrepareForCreateAudity(model);
                 var id = _resourceRespository.Create(model);
                 if (id == 0)
                     return null;
@@ -63,7 +69,7 @@ namespace LabManager.Services.Resources
                 serviceResponse.ErrorMessage = "Resource Friendly name is required";
                 serviceResponse.Result = ServiceResponseResult.Fail;
             }
-            if(!_resourceRespository.GetBy(x=>x.FriendlyName == model.FriendlyName && x.Active).IsEmptyOrNull())
+            if (!_resourceRespository.GetBy(x => x.FriendlyName == model.FriendlyName && x.Active).IsEmptyOrNull())
             {
                 serviceResponse.ErrorMessage = "Friendly name already exists";
                 serviceResponse.Result = ServiceResponseResult.Fail;
@@ -87,14 +93,50 @@ namespace LabManager.Services.Resources
                     ? _resourceRespository.GetAll()
                     : _resourceRespository.GetBy(filter);
 
-            return await Task.FromResult(query() ?? new ResourceModel[] { });
+            var resources = await Task.FromResult(query() ?? new ResourceModel[] { });
+            foreach (var r in resources)
+                _cacheManager.Set(CacheKeyFormats.ResourceById.AsFormat(r.Id), r);
+            return resources;
         }
 
         public async Task<ResourceModel> GetById(long id)
         {
-            return await Task.Run(() => _resourceRespository.GetById(id));
+            return await Task.Run(() => _cacheManager.Get(CacheKeyFormats.ResourceById.AsFormat(id), 
+                ()=> _resourceRespository.GetById(id)));
         }
 
+        #region Update
+
+        public async Task<ServiceResponse<ResourceModel>> UpdateAsync(ResourceModel resource)
+        {
+            var res = new ServiceResponse<ResourceModel>(resource, ServiceRequestType.Update);
+            if (!ValidateModelForUpdate(resource, res))
+                return res;
+
+            return await Task.Run(()=> 
+            {
+                _auditHelper.PrepareForUpdateAudity(resource);
+                _resourceRespository.Update(resource);
+                _cacheManager.Remove(CacheKeyFormats.ResourceById.AsFormat(resource.Id));
+                res.Result = ServiceResponseResult.Success;
+
+                return res;
+            });
+        }
+
+        private bool ValidateModelForUpdate(ResourceModel model, ServiceResponse<ResourceModel> serviceResponse)
+        {
+            if (model.IsNull() || model.Id == 0)
+            {
+                serviceResponse.ErrorMessage = "Missing model data or null model.";
+                serviceResponse.Result = ServiceResponseResult.Fail;
+            }
+
+            return !serviceResponse.HasErrors();
+        }
         #endregion
+
     }
+
+    #endregion
 }

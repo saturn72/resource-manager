@@ -42,10 +42,14 @@ namespace LabManager.DbModel.Repositories
             return _dbAdapter.GetById<ResourceModel>(id);
         }
 
-
         public IEnumerable<ResourceModel> GetBy(Func<ResourceModel, bool> query)
         {
             return _dbAdapter.GetBy(query);
+        }
+
+        public void Update(ResourceModel resource)
+        {
+            _dbAdapter.Update(resource);
         }
     }
 }

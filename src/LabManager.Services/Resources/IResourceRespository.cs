@@ -10,5 +10,6 @@ namespace LabManager.Services.Resources
         long Create(ResourceModel resourceModel);
         ResourceModel GetById(long id);
         IEnumerable<ResourceModel> GetBy(Func<ResourceModel, bool> query);
+        void Update(ResourceModel resource);
     }
 }

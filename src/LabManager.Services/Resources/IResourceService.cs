@@ -10,5 +10,6 @@ namespace LabManager.Services.Resources
         Task<IEnumerable<ResourceModel>> GetAllAsync(ResourceModel filter = null);
         Task<ServiceResponse<ResourceModel>> CreateAsync(ResourceModel model);
         Task<ResourceModel> GetById(long id);
+        Task<ServiceResponse<ResourceModel>> UpdateAsync(ResourceModel resource);
     }
 }

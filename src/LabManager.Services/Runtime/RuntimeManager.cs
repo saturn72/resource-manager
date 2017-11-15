@@ -41,12 +41,13 @@ namespace LabManager.Services.Runtime
             if (srvRes.HasErrors())
                 return srvRes;
 
-            srvRes.Model = CreateResourceAssignmentResponse(assignRequest);
-            srvRes.Model.Resources = availableOnly
+            var model = srvRes.Model;
+            model = CreateResourceAssignmentResponse(assignRequest);
+            model.Resources = availableOnly
                 ? requestedResource.Where(r => GetResourceAvailability(r.Id) == ResourceStatus.Available).ToArray()
                 : requestedResource;
             srvRes.Result = ServiceResponseResult.Success;
-            throw new NotImplementedException("Insert resources to cache");
+            _cacheManager.Set(model.SessionId, model);
             return srvRes;
         }
 
@@ -81,23 +82,24 @@ namespace LabManager.Services.Runtime
         }
 
 #endregion
-        public Task<ServiceResponse<ResourceAssignmentResponse>> AssignResourcesAsync(string sessionId)
+        public async Task<ServiceResponse<ResourceAssignmentResponse>> AssignResourcesAsync(string sessionId)
         {
             var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Approve);
             if (!sessionId.HasValue())
             {
                 srvRes.ErrorMessage = "The specified session-id is empty";
-                return Task.FromResult(srvRes);
+                return srvRes;
             }
-            var resources = _cacheManager.Get<object>(sessionId);
-            if (resources.IsNull())
+            var resAssignResponse = _cacheManager.Get<ResourceAssignmentResponse>(sessionId);
+            if (resAssignResponse.IsNull() || resAssignResponse.Resources.IsEmptyOrNull())
             {
                 srvRes.ErrorMessage = "Session expired";
-                return Task.FromResult(srvRes);
+                return srvRes;
             }
 
-            //var key = string.Format(SessionCacheKeyFormat, sessionId);
-            //_cacheManager.Get<
+            foreach (var resource in resAssignResponse.Resources)
+                await _resourceService.UpdateAsync(resource);
+
             throw new NotImplementedException();
         }
 

@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Linq.Expressions;
 using LiteDB;
 using QAutomation.Core.Domain;
 
@@ -14,8 +13,7 @@ namespace LabManager.DbModel
         {
             dbAdapter.Command(db =>
             {
-                var col = GetCollection<TDomainModel>(db);
-                col.Delete(id);
+                GetCollection<TDomainModel>(db).Delete(id);
             });
         }
 
@@ -41,8 +39,7 @@ namespace LabManager.DbModel
             Func<TDomainModel, bool> query)
             where TDomainModel : DomainModelBase
         {
-            var all = dbAdapter.GetAll<TDomainModel>();
-            return all.Where(query).ToArray();
+            return dbAdapter.GetAll<TDomainModel>().Where(query).ToArray();
         }
 
         public static void Create<TDomainModel>(this IDbAdapter dbAdapter, TDomainModel model)
@@ -50,8 +47,17 @@ namespace LabManager.DbModel
         {
             dbAdapter.Command(db =>
             {
-                var col = GetCollection<TDomainModel>(db);
-                col.Insert(model);
+                GetCollection<TDomainModel>(db).Insert(model);
+            });
+        }
+
+        public static void Update<TDomainModel>(this IDbAdapter dbAdapter, TDomainModel model)
+            where TDomainModel : DomainModelBase
+        {
+
+            dbAdapter.Command(db =>
+            {
+                GetCollection<TDomainModel>(db).Update(model);
             });
         }
     }
