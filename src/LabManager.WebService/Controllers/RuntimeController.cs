@@ -1,14 +1,11 @@
-﻿using System;
-using System.IO;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using LabManager.WebService.Infrastructure;
 using LabManager.WebService.Models.Runtime;
 using Microsoft.AspNetCore.Mvc;
 using LabManager.Services.Runtime;
-using QAutomation.Core.Services;
 using QAutomation.Extensions;
+using QAutomation.Core.Services;
 using System.Linq;
-using System.Text;
 
 namespace LabManager.WebService.Controllers
 {
@@ -30,7 +27,7 @@ namespace LabManager.WebService.Controllers
         #endregion
 
         [HttpPost]
-        public async Task<IActionResult> RequestAssignment([FromBody]ResourceAssignmentRequestApiModel assignRequest)
+        public async Task<IActionResult> RequestAssignment([FromBody] ResourceAssignmentRequestApiModel assignRequest)
         {
             var srvRes = await _runtimeManager.RequestResourceAssignmentAsync(assignRequest.ToModel());
 
@@ -44,7 +41,7 @@ namespace LabManager.WebService.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> AssignSessionAsync( string sessionId)
+        public async Task<IActionResult> AssignSessionAsync(string sessionId)
         {
             var srvRes = await _runtimeManager.AssignResourcesAsync(sessionId);
             return CheckAssignResponse(srvRes)
@@ -52,7 +49,7 @@ namespace LabManager.WebService.Controllers
                 ? Ok(sessionId)
                 : BadRequest(new
                 {
-                    sessionId = sessionId,
+                    sessionId,
                     message = srvRes?.ErrorMessage ?? "Unknown Error"
                 }) as IActionResult;
             ;
