@@ -66,9 +66,13 @@ namespace LabManager.Services.Tests.Runtime
             var srvRes = await mgr.AssignResourcesAsync(someSessionId);
             srvRes.HasErrors().ShouldBeFalse();
             srvRes.Result.ShouldBe(ServiceResponseResult.Success);
+            srvRes.Model.Status.ShouldBe(ResourceAssignmentStatus.Assigned);
 
             foreach (var r in resources)
+            {
+                r.Status.ShouldBe(ResourceStatus.Assigned);
                 rr.Verify(rs=>rs.UpdateAsync(It.Is<ResourceModel>(x=>x == r)), Times.Once);
+            }
         }
 
         #endregion

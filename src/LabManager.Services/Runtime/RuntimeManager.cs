@@ -103,6 +103,8 @@ namespace LabManager.Services.Runtime
                 resource.Status = ResourceStatus.Assigned;
                 await _resourceService.UpdateAsync(resource);
             }
+            resAssignResponse.Status = ResourceAssignmentStatus.Assigned;
+            srvRes.Model = resAssignResponse;
             srvRes.Result = ServiceResponseResult.Success;
             return srvRes;
         }
