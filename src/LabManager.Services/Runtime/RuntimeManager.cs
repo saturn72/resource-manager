@@ -60,7 +60,7 @@ namespace LabManager.Services.Runtime
                 return;
             }
 
-            if(requestedResource.Count()<assignRequest.RequiredResources.Count())
+            if (requestedResource.Count() < assignRequest.RequiredResources.Count())
             {
                 serviceResponse.ErrorMessage = "Insufficient Resources";
                 serviceResponse.Result = ServiceResponseResult.Fail;
@@ -78,29 +78,31 @@ namespace LabManager.Services.Runtime
                     continue;
                 allResources.AddRange(range);
             }
-            return allResources?.Distinct().Where(r=>r.Active);
+            return allResources?.Distinct().Where(r => r.Active);
         }
 
-#endregion
+        #endregion
         public async Task<ServiceResponse<ResourceAssignmentResponse>> AssignResourcesAsync(string sessionId)
         {
             var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Approve);
             if (!sessionId.HasValue())
             {
                 srvRes.ErrorMessage = "The specified session-id is empty";
+                srvRes.Result = ServiceResponseResult.Fail;
                 return srvRes;
             }
             var resAssignResponse = _cacheManager.Get<ResourceAssignmentResponse>(sessionId);
             if (resAssignResponse.IsNull() || resAssignResponse.Resources.IsEmptyOrNull())
             {
                 srvRes.ErrorMessage = "Session expired";
+                srvRes.Result = ServiceResponseResult.Fail;
                 return srvRes;
             }
 
             foreach (var resource in resAssignResponse.Resources)
                 await _resourceService.UpdateAsync(resource);
-
-            throw new NotImplementedException();
+            srvRes.Result = ServiceResponseResult.Success;
+            return srvRes;
         }
 
         private ResourceStatus GetResourceAvailability(long resourceId)

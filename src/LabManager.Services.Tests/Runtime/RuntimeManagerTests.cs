@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using Xunit;
@@ -14,6 +15,7 @@ namespace LabManager.Services.Tests.Runtime
     public class RuntimeManagerTests
     {
         #region AssignResourceAsync
+
         [Fact]
         public async Task RuntimeManager_AssignResourceAsync_EmptySession()
         {
@@ -22,6 +24,7 @@ namespace LabManager.Services.Tests.Runtime
             {
                 var srvRes = await mgr.AssignResourcesAsync(sessionId);
                 srvRes.HasErrors().ShouldBeTrue();
+                srvRes.Result.ShouldBe(ServiceResponseResult.Fail);
             }
         }
 
@@ -35,10 +38,41 @@ namespace LabManager.Services.Tests.Runtime
             var mgr = new RuntimeManager(null, cm.Object);
             var srvRes = await mgr.AssignResourcesAsync("some-session-id");
             srvRes.HasErrors().ShouldBeTrue();
+            srvRes.Result.ShouldBe(ServiceResponseResult.Fail);
+        }
+
+        [Fact]
+        public async Task RuntimeManager_AssignResourceAsync_Assignes()
+        {
+            var rr = new Mock<IResourceService>();
+
+            var cm = new Mock<ICacheManager>();
+            var someSessionId = "some-session-id";
+            var resources = new[]
+            {
+                new ResourceModel {Id = 1},
+                new ResourceModel {Id = 2},
+                new ResourceModel {Id = 3},
+                new ResourceModel {Id = 4}
+            };
+
+            cm.Setup(c => c.Get<ResourceAssignmentResponse>(It.IsAny<string>()))
+                .Returns(new ResourceAssignmentResponse(someSessionId, null)
+                {
+                    Resources = resources
+                });
+
+            var mgr = new RuntimeManager(rr.Object, cm.Object);
+            var srvRes = await mgr.AssignResourcesAsync(someSessionId);
+            srvRes.HasErrors().ShouldBeFalse();
+            srvRes.Result.ShouldBe(ServiceResponseResult.Success);
+
+            foreach (var r in resources)
+                rr.Verify(rs=>rs.UpdateAsync(It.Is<ResourceModel>(x=>x == r)), Times.Once);
         }
 
         #endregion
-        
+
         #region RequestResourceAssignmentAsync
         [Fact]
         public async Task RuntimeManager_RequestResourceAssignmentAsync_DoesNotFetchEnoughItems()
