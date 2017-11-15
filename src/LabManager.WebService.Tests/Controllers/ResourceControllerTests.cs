@@ -23,6 +23,7 @@ namespace LabManager.WebService.Tests.Controllers
 {
     public class ResourceControllerTests
     {
+        #region Read
         [Fact]
         public async Task ResourceController_GetAll_ReturnsEmptyCollection()
         {
@@ -66,7 +67,8 @@ namespace LabManager.WebService.Tests.Controllers
             foreach (var i in array)
                 names.ShouldContain(i.FriendlyName);
         }
-
+        #endregion
+        #region Create
         [Fact]
         public async Task ResourceController_Create_Fails()
         {
@@ -75,7 +77,7 @@ namespace LabManager.WebService.Tests.Controllers
 
             //null param
             var res0 = await ctrl.Create(null);
-            Assert.IsType<BadRequestResult>(res0);
+            Assert.IsType<BadRequestObjectResult>(res0);
 
             var apiModel = new ResourceApiModel { FriendlyName = "fn" };
 
@@ -89,12 +91,12 @@ namespace LabManager.WebService.Tests.Controllers
 
             var res1 = await ctrl.Create(apiModel);
 
-            Assert.IsType<BadRequestResult>(res1);
+            Assert.IsType<BadRequestObjectResult>(res1);
 
             //Id is null
             resSrv.Setup(s => s.CreateAsync(It.IsAny<ResourceModel>())).Returns(Task.FromResult(srvRes));
             var res2 = await ctrl.Create(apiModel);
-            Assert.IsType<BadRequestResult>(res2);
+            Assert.IsType<BadRequestObjectResult>(res2);
         }
 
         [Fact]
@@ -118,11 +120,11 @@ namespace LabManager.WebService.Tests.Controllers
             var res = await ctrl.Create(apiModel);
             Assert.IsType<CreatedResult>(res);
         }
-
+        #endregion
         #region GetById
 
         [Fact]
-        public async Task ResourceController_GetBId_returnsNull()
+        public async Task ResourceController_GetById_returnsNull()
         {
             var resSrv = new Mock<IResourceService>();
             resSrv.Setup(s => s.GetById(It.IsAny<long>())).Returns(Task.FromResult(null as ResourceModel));
@@ -150,6 +152,60 @@ namespace LabManager.WebService.Tests.Controllers
             value.FriendlyName.ShouldBe(expRes.FriendlyName);
             value.Id.ShouldBe(expRes.Id);
 
+        }
+        #endregion
+
+        #region Update
+        [Fact]
+        public async Task ResourceController_Update_Fails()
+        {
+            var resSrv = new Mock<IResourceService>();
+            var ctrl = new ResourceController(resSrv.Object);
+
+            //null param
+            var res0 = await ctrl.UpdateAsync(null);
+            Assert.IsType<BadRequestObjectResult>(res0);
+
+            var apiModel = new ResourceApiModel { FriendlyName = "fn" };
+
+            //Is was not incremented
+            var srvRes = new ServiceResponse<ResourceModel>(new ResourceModel { FriendlyName = "fn" },
+                ServiceRequestType.Update);
+            srvRes.Result = ServiceResponseResult.Fail;
+
+            resSrv.Setup(s => s.UpdateAsync(It.IsAny<ResourceModel>()))
+                .Returns(Task.FromResult(srvRes));
+
+            var res1 = await ctrl.UpdateAsync(apiModel);
+
+            Assert.IsType<BadRequestObjectResult>(res1);
+
+            //Id is null
+            resSrv.Setup(s => s.CreateAsync(It.IsAny<ResourceModel>())).Returns(Task.FromResult(srvRes));
+            var res2 = await ctrl.UpdateAsync(apiModel);
+            Assert.IsType<BadRequestObjectResult>(res2);
+        }
+
+        [Fact]
+        public async Task ResourceController_Put_Pass()
+        {
+            var resSrv = new Mock<IResourceService>();
+            var ctrl = new ResourceController(resSrv.Object);
+            const int expId = 123;
+            const string expName = "fn";
+
+            var expResult = new ResourceModel { FriendlyName = expName, Id = expId };
+
+            var serviceResponse = new ServiceResponse<ResourceModel>(expResult, ServiceRequestType.Update);
+            serviceResponse.Result = ServiceResponseResult.Success;
+
+            resSrv.Setup(s => s.UpdateAsync(It.IsAny<ResourceModel>()))
+                .Returns(Task.FromResult(serviceResponse));
+
+            var apiModel = new ResourceApiModel { FriendlyName = expName };
+
+            var res = await ctrl.UpdateAsync(apiModel);
+            Assert.IsType<OkObjectResult>(res);
         }
         #endregion
     }

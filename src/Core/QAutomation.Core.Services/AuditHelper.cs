@@ -1,5 +1,6 @@
 ﻿using System;
 using QAutomation.Core.Audit;
+using QAutomation.Core.Domain;
 using QAutomation.Extensions;
 
 namespace QAutomation.Core.Services
@@ -13,10 +14,13 @@ namespace QAutomation.Core.Services
             _workContext = workContext;
         }
 
-        public virtual void PrepareForCreateAudity(ICreateAudit audit)
+        public virtual void PrepareForCreateAudity<TCreateAudit>(TCreateAudit audit)
+            where TCreateAudit:DomainModelBase, ICreateAudit
         {
             if (audit.IsNull())
                 return;
+
+            audit.Id = 0;
             if (audit.CreatedOnUtc != default(DateTime) || audit.CreatedByUserId != 0)
                 throw new InvalidOperationException("Create audit already initialized.");
 
@@ -27,7 +31,8 @@ namespace QAutomation.Core.Services
             SetBrowseData(audit as IAccessAudit);
         }
 
-        public virtual void PrepareForUpdateAudity(IUpdateAudit audit)
+        public virtual void PrepareForUpdateAudity<TUpdateAudit>(TUpdateAudit audit)
+            where TUpdateAudit:DomainModelBase, IUpdateAudit
         {
             if (audit.IsNull())
                 return;

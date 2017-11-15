@@ -1,6 +1,8 @@
-﻿namespace LabManager.WebService
+﻿using QAutomation.Core;
+
+namespace LabManager.WebService
 {
-    public class LabManagerWorkContext
+    public sealed class LabManagerWorkContext:IWorkContext
     {
         public long CurrentUserId => 123;
 

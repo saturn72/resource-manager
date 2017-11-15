@@ -21,6 +21,7 @@ namespace LabManager.DbModel.Infrastructure
         {
             var col = GetCollection<ResourceModel>(db);
             col.EnsureIndex(s => s.IpAddress);
+            col.EnsureIndex(s => s.FriendlyName);
         }
 
         private static LiteCollection<T> GetCollection<T>(LiteDatabase db)

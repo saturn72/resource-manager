@@ -28,12 +28,11 @@ namespace LabManager.WebService.Infrastructure
             };
         }
        
-        public static ResourceModel ToModel(this ResourceApiModel source, bool includeId = false)
+        public static ResourceModel ToModel(this ResourceApiModel source)
         {
             return new ResourceModel
             {
-                Id = includeId ? source.Id : default(long),
-                
+                Id = source.Id,
                 FriendlyName = source.FriendlyName,
                 Active = source.Active,
                 IpAddress = source.IpAddress,
@@ -48,7 +47,7 @@ namespace LabManager.WebService.Infrastructure
         {
             return new ResourceAssignmentRequest
             {
-                RequiredResources = source.RequiredResources.Select<ResourceApiModel, ResourceModel>(s => s.ToModel(true)),
+                RequiredResources = source.RequiredResources.Select<ResourceApiModel, ResourceModel>(s => s.ToModel()),
                 ClientReferenceCode = source.ClientReferenceCode
             };
         }

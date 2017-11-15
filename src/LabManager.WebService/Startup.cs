@@ -8,6 +8,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using QAutomation.Core.Services;
 using QAutomation.Core.Services.Caching;
 using QAutomation.Core.Services.Events;
 using QAutomation.Core.Services.Logging;
@@ -28,8 +29,10 @@ namespace LabManager.WebService
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddMvc()
-                .AddFluentValidation(fv=>fv.RegisterValidatorsFromAssembly(Assembly.GetExecutingAssembly()));
+            services.AddMemoryCache();
+            services.AddCors();
+
+            services.AddMvc();
             services.AddSwaggerGen(c => c.SwaggerDoc("v1", new Info { Title = "My API", Version = "v1" }));
 
             RegisterDependencies(services);
@@ -37,6 +40,10 @@ namespace LabManager.WebService
 
         private void RegisterDependencies(IServiceCollection services)
         {
+            //Audity
+            var auditHelper = new AuditHelper(new LabManagerWorkContext());
+            services.AddSingleton(auditHelper);
+
             //register core components
             services.AddSingleton<ILogger, DbLogger>();
             services.AddSingleton<ICacheManager, MemoryCacheManager>();

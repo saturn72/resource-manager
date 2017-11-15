@@ -1,4 +1,6 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.IO;
+using System.Threading.Tasks;
 using LabManager.WebService.Infrastructure;
 using LabManager.WebService.Models.Runtime;
 using Microsoft.AspNetCore.Mvc;
@@ -6,6 +8,7 @@ using LabManager.Services.Runtime;
 using QAutomation.Core.Services;
 using QAutomation.Extensions;
 using System.Linq;
+using System.Text;
 
 namespace LabManager.WebService.Controllers
 {
@@ -26,8 +29,8 @@ namespace LabManager.WebService.Controllers
 
         #endregion
 
-        [HttpGet]
-        public async Task<IActionResult> GetAsync([FromBody] ResourceAssignmentRequestApiModel assignRequest)
+        [HttpPost("assign-request")]
+        public async Task<IActionResult> GetAsync([FromBody]ResourceAssignmentRequestApiModel assignRequest)
         {
             var srvRes = await _runtimeManager.RequestResourceAssignmentAsync(assignRequest.ToModel());
 
@@ -40,7 +43,7 @@ namespace LabManager.WebService.Controllers
                 : new NotFoundObjectResult(assignRequest) as IActionResult;
         }
 
-        [HttpPost]
+        [HttpPost("assign")]
         public async Task<IActionResult> PostAsync([FromBody] string sessionId)
         {
             var srvRes = await _runtimeManager.AssignResourcesAsync(sessionId);

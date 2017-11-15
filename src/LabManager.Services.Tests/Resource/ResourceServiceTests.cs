@@ -225,15 +225,22 @@ namespace LabManager.Services.Tests.Resource
         {
             var model = new ResourceModel
             {
-                Id = 123
+                Id = 123,
+                Active = true
             };
+            var dbModel = new ResourceModel
+            {
+                Id = 123,
+                Active = false
+            };
+            _resourceRepository.Setup(r => r.GetById(It.IsAny<long>())).Returns(dbModel);
 
             var response = await _resourceService.UpdateAsync(model);
             response.HasErrors().ShouldBeFalse();
             response.Result.ShouldBe(ServiceResponseResult.Success);
 
-            _auditHelper.Verify(a=>a.PrepareForUpdateAudity(It.Is<ResourceModel>(rm =>rm == model)), Times.Once);
-            _resourceRepository.Verify(a => a.Update(It.Is<ResourceModel>(rm => rm == model)), Times.Once);
+            _auditHelper.Verify(a=>a.PrepareForUpdateAudity(It.Is<ResourceModel>(rm =>rm == dbModel)), Times.Once);
+            _resourceRepository.Verify(a => a.Update(It.Is<ResourceModel>(rm => rm == dbModel)), Times.Once);
             _cacheManager.Verify(cm=>cm.Remove(It.Is<string>(k => k == string.Format(CacheKeyFormats.ResourceById, model.Id))), Times.Once);
         }
         #endregion

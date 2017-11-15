@@ -113,15 +113,28 @@ namespace LabManager.Services.Resources
             if (!ValidateModelForUpdate(resource, res))
                 return res;
 
-            return await Task.Run(()=> 
+            return await Task.Run(()=>
             {
-                _auditHelper.PrepareForUpdateAudity(resource);
-                _resourceRespository.Update(resource);
-                _cacheManager.Remove(CacheKeyFormats.ResourceById.AsFormat(resource.Id));
+                var dbModel = PrepareForUpdate(resource);
+                _resourceRespository.Update(dbModel);
+                _cacheManager.Remove(CacheKeyFormats.ResourceById.AsFormat(dbModel.Id));
                 res.Result = ServiceResponseResult.Success;
 
                 return res;
             });
+        }
+
+        private ResourceModel PrepareForUpdate(ResourceModel resource)
+        {
+            var dbModel = _resourceRespository.GetById(resource.Id);
+            if (resource.FriendlyName.HasValue())
+                dbModel.FriendlyName = resource.FriendlyName;
+            if (resource.IpAddress.HasValue())
+                dbModel.IpAddress = resource.IpAddress;
+            dbModel.Active = resource.Active;
+
+            _auditHelper.PrepareForUpdateAudity(dbModel);
+            return dbModel;
         }
 
         private bool ValidateModelForUpdate(ResourceModel model, ServiceResponse<ResourceModel> serviceResponse)
