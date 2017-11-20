@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
 using LabManager.Services.Commanders;
 using LabManager.Services.Resources;
@@ -34,10 +35,22 @@ namespace LabManager.Services.Instance
 
         #endregion
 
-        public async Task<ServiceResponse<StartResponseData>> Start(long resourceId)
+        public async Task<ServiceResponse<ResourceExecutionResponseData>> StartAsync(long resourceId)
         {
-            var data = new StartResponseData();
-            var response = new ServiceResponse<StartResponseData>(data, ServiceRequestType.Launch);
+            return await RunResourceCommand(resourceId, resource => _resourceCommander.Start(resource), ResourceStatus.Started);
+        }
+
+
+
+        public async Task<ServiceResponse<ResourceExecutionResponseData>> StopAsync(long resourceId)
+        {
+            return await RunResourceCommand(resourceId, resource => _resourceCommander.Stop(resource), ResourceStatus.Stopped);
+        }
+
+        #region Utilities
+        private async Task<ServiceResponse<ResourceExecutionResponseData>> RunResourceCommand(long resourceId, Func<ResourceModel, int> resourceCommand, ResourceStatus resourceStatus)
+        {
+            var response = new ServiceResponse<ResourceExecutionResponseData>(new ResourceExecutionResponseData(), ServiceRequestType.Command);
             if (resourceId <= 0)
             {
                 response.ErrorMessage = "Illegal resource Id";
@@ -50,32 +63,32 @@ namespace LabManager.Services.Instance
             if (!CheckResourceBeproStartup(resource, response))
                 return response;
 
-            var result = 1;
+            var result = 0;
             await Task.Run(() =>
             {
-                resource.Status = ResourceStatus.Started;
+                resource.Status = resourceStatus;
                 _auditHelper.PrepareForUpdateAudity(resource);
                 _resourceRepository.Update(resource);
                 _eventPublisher.DomainModelUpdated(resource);
 
-                result = _resourceCommander.Start(resource);
+                result = resourceCommand(resource);
 
                 resource.Status = ResourceStatus.Available;
                 _auditHelper.PrepareForUpdateAudity(resource);
                 _resourceRepository.Update(resource);
                 _eventPublisher.DomainModelUpdated(resource);
-                
+
             });
 
-            response.Model.Started = result == 0;
-            response.Result = response.Model.Started?
-                ServiceResponseResult.Success : 
+            response.Model.Executed = result == 0;
+            response.Result = response.Model.Executed ?
+                ServiceResponseResult.Success :
                 ServiceResponseResult.Fail;
 
             return response;
         }
 
-        private bool CheckResourceBeproStartup(ResourceModel resource, ServiceResponse<StartResponseData> response)
+        private bool CheckResourceBeproStartup(ResourceModel resource, ServiceResponse<ResourceExecutionResponseData> response)
         {
             if (resource.IsNull())
             {
@@ -86,16 +99,11 @@ namespace LabManager.Services.Instance
             if (resource.Status == ResourceStatus.Unavailable)
                 response.ErrorMessage = "Resource unavailable";
 
-            if (resource.IpAddress.IsEmptyOrNull() || resource.SshUsername.IsEmptyOrNull() ||
-                resource.SshPassword.IsEmptyOrNull())
-                response.ErrorMessage = "Missing resource data for ssh connection";
-
             response.Result = response.ErrorMessage.IsEmptyOrNull()
                 ? ServiceResponseResult.Success
                 : ServiceResponseResult.Fail;
             return response.Result == ServiceResponseResult.Success;
         }
-
-       
+        #endregion
     }
 }

@@ -1,9 +1,8 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LabManager.Services.Instance;
+using QAutomation.Core.Services;
 
 namespace LabManager.WebService.Controllers
 {
@@ -24,8 +23,25 @@ namespace LabManager.WebService.Controllers
 
         #endregion
 
-        [HttpPost]
-        public async Task<IActionResult> StartAsync(int resourceId)
+        #region Start
+
+        [HttpPost("start")]
+        public async Task<IActionResult> StartAsync(long resourceId)
+        {
+            return await RunResourceCommandAsync(resourceId, rId => _instanceService.StartAsync(rId));
+        }
+
+        #endregion
+
+        [HttpPost("stop")]
+        public async Task<IActionResult> StopAsync(long resourceId)
+        {
+            return await RunResourceCommandAsync(resourceId, rId => _instanceService.StopAsync(rId));
+        }
+
+        #region Utilities
+
+        private async Task<IActionResult> RunResourceCommandAsync(long resourceId, Func<long, Task<ServiceResponse<ResourceExecutionResponseData>>> func)
         {
             if (resourceId <= 0)
                 return BadRequest(new
@@ -34,14 +50,15 @@ namespace LabManager.WebService.Controllers
                     message = "ResourceId must be greater than 0."
                 });
 
-            var serviceResponse = await _instanceService.Start(resourceId);
-            return serviceResponse.Model.Started
+            var serviceResponse = await func(resourceId);
+            return serviceResponse.Model.Executed
                 ? Ok() as IActionResult
                 : BadRequest(new
                 {
                     @resourceId = resourceId,
-                    message = string.Format("Failed To start resource: {0}\n{1}",  resourceId, serviceResponse.ErrorMessage)
+                    message = string.Format("Failed To start resource: {0}\n{1}", resourceId, serviceResponse.ErrorMessage)
                 });
         }
+        #endregion
     }
 }

@@ -7,6 +7,6 @@ namespace QAutomation.Core.Services
         Read = 30,
         Update = 40,
         Delete = 50,
-        Launch = 60
+        Command = 60
     }
 }

@@ -5,6 +5,7 @@ namespace LabManager.Services.Instance
 {
     public interface IInstanceService
     {
-        Task<ServiceResponse<StartResponseData>> Start(long resourceId);
+        Task<ServiceResponse<ResourceExecutionResponseData>> StartAsync(long resourceId);
+        Task<ServiceResponse<ResourceExecutionResponseData>> StopAsync(long resourceId);
     }
 }
