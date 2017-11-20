@@ -1,9 +1,10 @@
 ﻿using System.Threading.Tasks;
+using QAutomation.Core.Services;
 
 namespace LabManager.Services.Instance
 {
     public interface IInstanceService
     {
-        Task<bool> Start(long resourceId);
+        Task<ServiceResponse<StartResponseData>> Start(long resourceId);
     }
 }

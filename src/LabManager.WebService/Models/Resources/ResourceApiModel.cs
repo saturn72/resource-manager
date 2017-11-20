@@ -8,5 +8,7 @@ namespace LabManager.WebService.Models.Resources
         public string IpAddress { get; set; }
         public ResourceStatus Status { get; set; }
         public bool Active { get; set; }
+        public string SshUsername { get; set; }
+        public string SshPassword { get; set; }
     }
 }

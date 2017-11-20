@@ -2,6 +2,8 @@
 using LabManager.DbModel;
 using LabManager.DbModel.Infrastructure;
 using LabManager.DbModel.Repositories;
+using LabManager.Services.Commanders;
+using LabManager.Services.Instance;
 using LabManager.Services.Resources;
 using LabManager.Services.Runtime;
 using Microsoft.AspNetCore.Builder;
@@ -55,6 +57,8 @@ namespace LabManager.WebService
             services.AddScoped<IResourceService, ResourceService>();
             services.AddScoped<IResourceRepository, ResourceRepository>();
 
+            services.AddScoped<IInstanceService, InstanceService>();
+            services.AddScoped<IResourceCommander, SshResourceCommander>();
             services.AddScoped<IRuntimeManager, RuntimeManager>();
 
             const string dbName = "lab-manager.db";

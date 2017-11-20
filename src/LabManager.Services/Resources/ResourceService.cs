@@ -131,6 +131,10 @@ namespace LabManager.Services.Resources
                 dbModel.FriendlyName = resource.FriendlyName;
             if (resource.IpAddress.HasValue())
                 dbModel.IpAddress = resource.IpAddress;
+            if (resource.SshUsername.HasValue())
+                dbModel.SshUsername = resource.SshUsername;
+            if (resource.SshPassword.HasValue())
+                dbModel.SshPassword = resource.SshPassword;
             dbModel.Active = resource.Active;
 
             _auditHelper.PrepareForUpdateAudity(dbModel);

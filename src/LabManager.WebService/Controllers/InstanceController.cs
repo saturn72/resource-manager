@@ -25,7 +25,6 @@ namespace LabManager.WebService.Controllers
         #endregion
 
         [HttpPost]
-
         public async Task<IActionResult> StartAsync(int resourceId)
         {
             if (resourceId <= 0)
@@ -35,12 +34,13 @@ namespace LabManager.WebService.Controllers
                     message = "ResourceId must be greater than 0."
                 });
 
-            return await _instanceService.Start(resourceId)
+            var serviceResponse = await _instanceService.Start(resourceId);
+            return serviceResponse.Model.Started
                 ? Ok() as IActionResult
                 : BadRequest(new
                 {
                     @resourceId = resourceId,
-                    message = "FailedTo start resource: " + resourceId
+                    message = string.Format("Failed To start resource: {0}\n{1}",  resourceId, serviceResponse.ErrorMessage)
                 });
         }
     }

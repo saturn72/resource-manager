@@ -16,5 +16,7 @@ namespace LabManager.Common.Domain.Resource
         public long? DeletedByUserId { get; set; }
         public DateTime? UpdatedOnUtc { get; set; }
         public long? UpdatedByUserId { get; set; }
+        public string SshUsername { get; set; }
+        public string SshPassword { get; set; }
     }
 }

@@ -5,6 +5,7 @@ using Moq;
 using Xunit;
 using Shouldly;
 using LabManager.Services.Instance;
+using QAutomation.Core.Services;
 
 namespace LabManager.WebService.Tests.Controllers
 {
@@ -28,13 +29,16 @@ namespace LabManager.WebService.Tests.Controllers
         public async Task InstanceController_StartInstance()
         {
             var iSrv = new Mock<IInstanceService>();
-            var srvRes = false;
+            var startResponseData = new StartResponseData {Started = false};
+            var srvRes =
+                new ServiceResponse<StartResponseData>(startResponseData,
+                    ServiceRequestType.Launch);
             iSrv.Setup(i => i.Start(It.IsAny<long>())).Returns(()=> Task.FromResult(srvRes));
             var ic = new InstanceController(iSrv.Object);
             var res1 = await ic.StartAsync(resourceId: 123);
             res1.ShouldBeOfType<BadRequestObjectResult>();
 
-            srvRes = true;
+            startResponseData.Started = true;
             var res2 = await ic.StartAsync(resourceId: 123);
             res2.ShouldBeOfType<OkResult>();
         }

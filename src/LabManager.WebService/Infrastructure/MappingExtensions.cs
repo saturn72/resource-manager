@@ -25,6 +25,8 @@ namespace LabManager.WebService.Infrastructure
                 IpAddress = source.IpAddress,
                 Status = source.Status,
                 Active = source.Active,
+                SshUsername = source.SshUsername,
+                SshPassword = source.SshPassword,
             };
         }
        
@@ -36,6 +38,8 @@ namespace LabManager.WebService.Infrastructure
                 FriendlyName = source.FriendlyName,
                 Active = source.Active,
                 IpAddress = source.IpAddress,
+                SshUsername = source.SshUsername,
+                SshPassword = source.SshPassword,
             };
         }
 

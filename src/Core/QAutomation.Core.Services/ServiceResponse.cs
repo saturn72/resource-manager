@@ -1,12 +1,8 @@
-
-using QAutomation.Core.Domain;
-
 namespace QAutomation.Core.Services
 {
-    public sealed class ServiceResponse<TDomainModel>
-        where TDomainModel:DomainModelBase
+    public sealed class ServiceResponse<TResponseObject>
     {
-        public ServiceResponse(TDomainModel model, ServiceRequestType requestType)
+        public ServiceResponse(TResponseObject model, ServiceRequestType requestType)
         {
             Model = model;
             Result = ServiceResponseResult.Unknown;
@@ -16,7 +12,6 @@ namespace QAutomation.Core.Services
 
         public ServiceRequestType RequestType { get; set; }
         public ServiceResponseResult Result { get; set; }
-        public TDomainModel Model { get; set; }
-
+        public TResponseObject Model { get; set; }
     }
 }
