@@ -161,7 +161,7 @@ namespace LabManager.Services.Tests.Runtime
             res.HasErrors().ShouldBeFalse();
 
             //cached session
-            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<ResourceAssignmentResponse>(), It.IsAny<int>()),
+            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<ResourceAssignmentResponse>(), It.IsAny<uint>()),
                 Times.Once);
         }
 

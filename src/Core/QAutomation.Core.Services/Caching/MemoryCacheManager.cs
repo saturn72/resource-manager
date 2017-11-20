@@ -42,7 +42,7 @@ namespace QAutomation.Core.Services.Caching
             _memoryCache.Remove(key);
         }
 
-        public void Set<TCachedObject>(string key, TCachedObject value, int cacheTime)
+        public void Set<TCachedObject>(string key, TCachedObject value, uint cacheTime)
         {
             _memoryCache.Set(key, value, TimeSpan.FromSeconds(cacheTime));
         }

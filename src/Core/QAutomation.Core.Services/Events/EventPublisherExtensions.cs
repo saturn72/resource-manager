@@ -15,7 +15,19 @@ namespace QAutomation.Core.Services.Events
             eventPublisher.PublishAsync(eventMessage);
             Task.Run(() => eventPublisher.Publish(eventMessage));
         }
-        public static void PublishToAll<TEvent>(IEventPublisher eventPublisher, TEvent eventMessage)
+
+        public static void DomainModelUpdated<TDomainModel>(this IEventPublisher eventPublisher, TDomainModel model)
+            where TDomainModel : DomainModelBase
+        {
+            var eventMessage = new DomainModelUpdatedEvent<TDomainModel>
+            {
+                Model = model
+            };
+            eventPublisher.PublishAsync(eventMessage);
+            Task.Run(() => eventPublisher.Publish(eventMessage));
+        }
+
+        public static void PublishToAll<TEvent>(this IEventPublisher eventPublisher, TEvent eventMessage)
         where TEvent : EventBase
         {
             eventPublisher.PublishAsync(eventMessage);

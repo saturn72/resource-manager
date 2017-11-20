@@ -83,7 +83,7 @@ namespace LabManager.Services.Tests.Resource
                 names.ShouldContain(c.FriendlyName);
                 _cacheManager.Verify(cm => cm.Set(It.Is<string>(k => k == string.Format(CacheKeyFormats.ResourceById, c.Id))
                 , It.IsAny<ResourceModel>(),
-                It.IsAny<int>()), Times.Once);
+                It.IsAny<uint>()), Times.Once);
             }
         }
 
@@ -110,7 +110,7 @@ namespace LabManager.Services.Tests.Resource
                 names.ShouldContain(c.FriendlyName);
                 _cacheManager.Verify(cm => cm.Set(It.Is<string>(k => k == string.Format(CacheKeyFormats.ResourceById, c.Id))
                     , It.IsAny<ResourceModel>(),
-                    It.IsAny<int>()), Times.Once);
+                    It.IsAny<uint>()), Times.Once);
             }
         }
         #endregion
@@ -199,7 +199,7 @@ namespace LabManager.Services.Tests.Resource
 
             _cacheManager.Verify(cm => cm.Set(It.Is<string>(k => k == string.Format(CacheKeyFormats.ResourceById, repoModel.Id))
                 , It.IsAny<ResourceModel>(),
-                It.IsAny<int>()), Times.Once);
+                It.IsAny<uint>()), Times.Once);
         }
         #endregion
 

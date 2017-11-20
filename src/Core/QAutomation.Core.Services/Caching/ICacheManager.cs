@@ -16,7 +16,7 @@ namespace QAutomation.Core.Services.Caching
         /// <param name="key">key</param>
         /// <param name="data">Data</param>
         /// <param name="cacheTime">Cache time</param>
-        void Set<TCachedObject>(string key, TCachedObject data, int cacheTime);
+        void Set<TCachedObject>(string key, TCachedObject data, uint cacheTime);
 
         /// <summary>
         ///     Removes the value with the specified key from the cache
