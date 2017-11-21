@@ -27,6 +27,8 @@ namespace LabManager.WebService.Infrastructure
                 Active = source.Active,
                 SshUsername = source.SshUsername,
                 SshPassword = source.SshPassword,
+                SquishServerPort = source.SquishServerPort,
+                SquishServerLocalPath = source.SquishServerLocalPath,
             };
         }
        
@@ -40,6 +42,8 @@ namespace LabManager.WebService.Infrastructure
                 IpAddress = source.IpAddress,
                 SshUsername = source.SshUsername,
                 SshPassword = source.SshPassword,
+                SquishServerPort = source.SquishServerPort,
+                SquishServerLocalPath = source.SquishServerLocalPath,
             };
         }
 

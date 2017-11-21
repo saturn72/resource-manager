@@ -18,5 +18,7 @@ namespace LabManager.Common.Domain.Resource
         public long? UpdatedByUserId { get; set; }
         public string SshUsername { get; set; }
         public string SshPassword { get; set; }
+        public ushort SquishServerPort { get; set; }
+        public string SquishServerLocalPath { get; set; }
     }
 }

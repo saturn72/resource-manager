@@ -10,5 +10,7 @@ namespace LabManager.WebService.Models.Resources
         public bool Active { get; set; }
         public string SshUsername { get; set; }
         public string SshPassword { get; set; }
+        public ushort SquishServerPort { get; set; }
+        public string SquishServerLocalPath { get; set; }
     }
 }

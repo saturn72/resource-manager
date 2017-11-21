@@ -135,6 +135,8 @@ namespace LabManager.Services.Resources
                 dbModel.SshUsername = resource.SshUsername;
             if (resource.SshPassword.HasValue())
                 dbModel.SshPassword = resource.SshPassword;
+            if(resource.SquishServerPort != default(ushort))
+                dbModel.SquishServerPort = resource.SquishServerPort;
             dbModel.Active = resource.Active;
 
             _auditHelper.PrepareForUpdateAudity(dbModel);

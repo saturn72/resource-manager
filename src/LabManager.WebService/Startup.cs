@@ -58,7 +58,7 @@ namespace LabManager.WebService
             services.AddScoped<IResourceRepository, ResourceRepository>();
 
             services.AddScoped<IInstanceService, InstanceService>();
-            services.AddScoped<IResourceCommander, SshResourceCommander>();
+            services.AddScoped<IResourceCommander, LvpResourceCommander>();
             services.AddScoped<IRuntimeManager, RuntimeManager>();
 
             const string dbName = "lab-manager.db";

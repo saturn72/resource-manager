@@ -40,14 +40,13 @@ namespace LabManager.Services.Instance
             return await RunResourceCommand(resourceId, resource => _resourceCommander.Start(resource), ResourceStatus.Started);
         }
 
-
-
         public async Task<ServiceResponse<ResourceExecutionResponseData>> StopAsync(long resourceId)
         {
             return await RunResourceCommand(resourceId, resource => _resourceCommander.Stop(resource), ResourceStatus.Stopped);
         }
 
         #region Utilities
+
         private async Task<ServiceResponse<ResourceExecutionResponseData>> RunResourceCommand(long resourceId, Func<ResourceModel, int> resourceCommand, ResourceStatus resourceStatus)
         {
             var response = new ServiceResponse<ResourceExecutionResponseData>(new ResourceExecutionResponseData(), ServiceRequestType.Command);
