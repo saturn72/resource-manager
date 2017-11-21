@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Net.Http.Headers;
 using System.Threading;
 using LabManager.Services.Instance;
 using Shouldly;
@@ -93,7 +94,7 @@ namespace LabManager.Services.Tests.Instance
             res1.Result.ShouldBe(ServiceResponseResult.Success);
 
             res1.Model.Executed.ShouldBeTrue();
-
+            rc.Verify(r=>r.Start(It.IsAny<ResourceModel>()), Times.Once);
             //verify
             foreach (var item in new[] { "ah", "rr", "ep" })
             {
@@ -103,6 +104,7 @@ namespace LabManager.Services.Tests.Instance
             }
 
             //Returns -1 (NOT-STARTED) from resource commander
+            rc.ResetCalls();
             rc.Setup(r => r.Start(It.IsAny<ResourceModel>())).Returns(-1);
             callList.Clear();
 
@@ -113,6 +115,7 @@ namespace LabManager.Services.Tests.Instance
             res2.Model.Executed.ShouldBeFalse();
 
             //verify
+            rc.Verify(r => r.Start(It.IsAny<ResourceModel>()), Times.Once);
             foreach (var item in new[] { "ah", "rr", "ep" })
             {
                 callList.Count(c => c.StartsWith(item + "_")).ShouldBe(2);
@@ -198,6 +201,7 @@ namespace LabManager.Services.Tests.Instance
 
             res1.Model.Executed.ShouldBeTrue();
 
+            rc.Verify(r=>r.Stop(It.IsAny<ResourceModel>()), Times.Once);
             //verify
             foreach (var item in new[] { "ah", "rr", "ep" })
             {
@@ -207,6 +211,7 @@ namespace LabManager.Services.Tests.Instance
             }
 
             //Returns -1 (NOT-Stopped) from resource commander
+            rc.ResetCalls();
             rc.Setup(r => r.Stop(It.IsAny<ResourceModel>())).Returns(-1);
             callList.Clear();
 
@@ -215,7 +220,7 @@ namespace LabManager.Services.Tests.Instance
             res2.RequestType.ShouldBe(ServiceRequestType.Command);
             res2.Result.ShouldBe(ServiceResponseResult.Fail);
             res2.Model.Executed.ShouldBeFalse();
-
+            rc.Verify(r => r.Stop(It.IsAny<ResourceModel>()), Times.Once);
             //verify
             foreach (var item in new[] { "ah", "rr", "ep" })
             {
