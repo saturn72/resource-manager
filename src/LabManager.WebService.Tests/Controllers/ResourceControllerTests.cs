@@ -15,7 +15,7 @@ using LabManager.WebService.Models.Resources;
 using System.Threading;
 using System.Net.Http;
 using Microsoft.AspNetCore.Http;
-using QAutomation.Core.Services;
+using Saturn72.Core.Services;
 
 #endregion
 
@@ -82,8 +82,11 @@ namespace LabManager.WebService.Tests.Controllers
             var apiModel = new ResourceApiModel { FriendlyName = "fn" };
 
             //Is was not incremented
-            var srvRes = new ServiceResponse<ResourceModel>(new ResourceModel {FriendlyName = "fn"},
-                ServiceRequestType.Create);
+            var srvRes =
+                new ServiceResponse<ResourceModel>(ServiceRequestType.Create)
+                {
+                    Model = new ResourceModel {FriendlyName = "fn"},
+                };
             srvRes.Result = ServiceResponseResult.Fail;
 
             resSrv.Setup(s => s.CreateAsync(It.IsAny<ResourceModel>()))
@@ -109,7 +112,7 @@ namespace LabManager.WebService.Tests.Controllers
 
             var expResult = new ResourceModel { FriendlyName = expName, Id = expId };
 
-            var serviceResponse = new ServiceResponse<ResourceModel>(expResult, ServiceRequestType.Create);
+            var serviceResponse = new ServiceResponse<ResourceModel>(ServiceRequestType.Create) {Model = expResult,};
             serviceResponse.Result = ServiceResponseResult.Success;
 
             resSrv.Setup(s => s.CreateAsync(It.IsAny<ResourceModel>()))
@@ -169,8 +172,11 @@ namespace LabManager.WebService.Tests.Controllers
             var apiModel = new ResourceApiModel { FriendlyName = "fn" };
 
             //Is was not incremented
-            var srvRes = new ServiceResponse<ResourceModel>(new ResourceModel { FriendlyName = "fn" },
-                ServiceRequestType.Update);
+            var srvRes =
+                new ServiceResponse<ResourceModel>(ServiceRequestType.Update)
+                {
+                    Model = new ResourceModel {FriendlyName = "fn"},
+                };
             srvRes.Result = ServiceResponseResult.Fail;
 
             resSrv.Setup(s => s.UpdateAsync(It.IsAny<ResourceModel>()))
@@ -196,7 +202,8 @@ namespace LabManager.WebService.Tests.Controllers
 
             var expResult = new ResourceModel { FriendlyName = expName, Id = expId };
 
-            var serviceResponse = new ServiceResponse<ResourceModel>(expResult, ServiceRequestType.Update);
+            var serviceResponse = new ServiceResponse<ResourceModel>( ServiceRequestType.Update)
+            {Model = expResult, };
             serviceResponse.Result = ServiceResponseResult.Success;
 
             resSrv.Setup(s => s.UpdateAsync(It.IsAny<ResourceModel>()))

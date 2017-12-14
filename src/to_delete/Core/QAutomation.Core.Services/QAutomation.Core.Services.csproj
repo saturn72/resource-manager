@@ -5,8 +5,8 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
     <ProjectReference Include="..\QAutomation.Core\QAutomation.Core.csproj" />
-    <ProjectReference Include="..\..\QAutomation.Extensions\QAutomation.Extensions.csproj" />
   </ItemGroup>
 
   <ItemGroup>

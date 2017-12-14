@@ -3,15 +3,15 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using Xunit;
-using QAutomation.Core.Services.Events;
+using Saturn72.Core.Services.Events;
 using LabManager.Services;
 using LabManager.Services.Resources;
 using LabManager.Common.Domain.Resource;
 using System.Linq;
 using Shouldly;
-using QAutomation.Core.Services;
-using QAutomation.Core;
-using QAutomation.Core.Services.Caching;
+using Saturn72.Core.Services;
+using Saturn72.Core;
+using Saturn72.Core.Caching;
 
 namespace LabManager.Services.Tests.Resource
 {
@@ -83,7 +83,7 @@ namespace LabManager.Services.Tests.Resource
                 names.ShouldContain(c.FriendlyName);
                 _cacheManager.Verify(cm => cm.Set(It.Is<string>(k => k == string.Format(CacheKeyFormats.ResourceById, c.Id))
                 , It.IsAny<ResourceModel>(),
-                It.IsAny<uint>()), Times.Once);
+                It.IsAny<int>()), Times.Once);
             }
         }
 
@@ -110,7 +110,7 @@ namespace LabManager.Services.Tests.Resource
                 names.ShouldContain(c.FriendlyName);
                 _cacheManager.Verify(cm => cm.Set(It.Is<string>(k => k == string.Format(CacheKeyFormats.ResourceById, c.Id))
                     , It.IsAny<ResourceModel>(),
-                    It.IsAny<uint>()), Times.Once);
+                    It.IsAny<int>()), Times.Once);
             }
         }
         #endregion
@@ -199,7 +199,7 @@ namespace LabManager.Services.Tests.Resource
 
             _cacheManager.Verify(cm => cm.Set(It.Is<string>(k => k == string.Format(CacheKeyFormats.ResourceById, repoModel.Id))
                 , It.IsAny<ResourceModel>(),
-                It.IsAny<uint>()), Times.Once);
+                It.IsAny<int>()), Times.Once);
         }
         #endregion
 

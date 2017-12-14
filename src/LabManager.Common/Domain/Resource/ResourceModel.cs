@@ -1,6 +1,6 @@
 using System;
-using QAutomation.Core.Audit;
-using QAutomation.Core.Domain;
+using Saturn72.Core.Audit;
+using Saturn72.Core.Domain;
 
 namespace LabManager.Common.Domain.Resource
 {

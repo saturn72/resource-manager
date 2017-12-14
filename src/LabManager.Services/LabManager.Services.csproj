@@ -5,9 +5,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Core\QAutomation.Core.Services\QAutomation.Core.Services.csproj" />
+    <ProjectReference Include="..\..\submodules\saturn72\src\NetCore\Saturn72.Core.Services\Saturn72.Core.Services.csproj" />
     <ProjectReference Include="..\LabManager.Common\LabManager.Common.csproj" />
-    <ProjectReference Include="..\QAutomation.Extensions\QAutomation.Extensions.csproj" />
   </ItemGroup>
 
   <PropertyGroup>

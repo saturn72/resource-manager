@@ -1,7 +1,5 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using System.Net.Http.Headers;
-using System.Threading;
 using LabManager.Services.Instance;
 using Shouldly;
 using System.Threading.Tasks;
@@ -9,10 +7,10 @@ using Moq;
 using Xunit;
 using LabManager.Services.Resources;
 using LabManager.Common.Domain.Resource;
-using QAutomation.Core.Services.Caching;
-using QAutomation.Core.Services;
-using QAutomation.Core;
-using QAutomation.Core.Services.Events;
+using Saturn72.Core.Caching;
+using Saturn72.Core.Services;
+using Saturn72.Core;
+using Saturn72.Core.Services.Events;
 using LabManager.Services.Commanders;
 
 namespace LabManager.Services.Tests.Instance

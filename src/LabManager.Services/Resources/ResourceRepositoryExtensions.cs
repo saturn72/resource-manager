@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using LabManager.Common.Domain.Resource;
-using QAutomation.Extensions;
+using Saturn72.Extensions;
 
 namespace LabManager.Services.Resources
 {

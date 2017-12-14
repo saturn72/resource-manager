@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
-using QAutomation.Core.Services;
-using QAutomation.Core.Services.Caching;
-using QAutomation.Core.Services.Events;
-using QAutomation.Extensions;
+using Saturn72.Core.Caching;
+using Saturn72.Core.Services;
+using Saturn72.Core.Services.Events;
+using Saturn72.Extensions;
 
 namespace LabManager.Services.Resources
 {
@@ -36,7 +36,7 @@ namespace LabManager.Services.Resources
 
         public Task<ServiceResponse<ResourceModel>> CreateAsync(ResourceModel model)
         {
-            var srvRes = new ServiceResponse<ResourceModel>(model, ServiceRequestType.Create);
+            var srvRes = new ServiceResponse<ResourceModel>(ServiceRequestType.Create){Model = model };
             ValidateModelForCreate(model, srvRes);
             if (srvRes.HasErrors())
                 return Task.FromResult(srvRes);
@@ -50,7 +50,7 @@ namespace LabManager.Services.Resources
                 srvRes.Model = _resourceRespository.GetById(id);
                 srvRes.Result = ServiceResponseResult.Success;
 
-                _eventPublisher.DomainModelCreated(model);
+                _eventPublisher.PublishToAllDomainModelCreatedEvent(model);
 
                 return srvRes;
             });
@@ -109,7 +109,7 @@ namespace LabManager.Services.Resources
 
         public async Task<ServiceResponse<ResourceModel>> UpdateAsync(ResourceModel resource)
         {
-            var res = new ServiceResponse<ResourceModel>(resource, ServiceRequestType.Update);
+            var res = new ServiceResponse<ResourceModel>(ServiceRequestType.Update){Model = resource };
             if (!ValidateModelForUpdate(resource, res))
                 return res;
 

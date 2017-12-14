@@ -1,4 +1,4 @@
-﻿using QAutomation.Core;
+﻿using Saturn72.Core;
 
 namespace LabManager.WebService
 {

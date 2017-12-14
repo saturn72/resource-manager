@@ -14,6 +14,7 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\..\submodules\saturn72\src\NetCore\Saturn72.Core.Services\Saturn72.Core.Services.csproj" />
     <ProjectReference Include="..\LabManager.WebService\LabManager.WebService.csproj" />
     <ProjectReference Include="..\LabManager.Services\LabManager.Services.csproj" />
   </ItemGroup>

@@ -10,12 +10,13 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using QAutomation.Core.Services;
-using QAutomation.Core.Services.Caching;
-using QAutomation.Core.Services.Events;
-using QAutomation.Core.Services.Logging;
+using Saturn72.Core.Caching;
+using Saturn72.Core.Services;
+using Saturn72.Core.Caching;
+using Saturn72.Core.Services.Events;
+using Saturn72.Core.Services.Logging;
 using Swashbuckle.AspNetCore.Swagger;
-using System.Reflection;
+using Saturn72.Core.Services.Caching;
 
 namespace LabManager.WebService
 {
@@ -44,7 +45,7 @@ namespace LabManager.WebService
         {
             //Audity
             var auditHelper = new AuditHelper(new LabManagerWorkContext());
-            services.AddSingleton(auditHelper);
+            services.AddSingleton<AuditHelper>(auditHelper);
 
             //register core components
             services.AddSingleton<ILogger, DbLogger>();

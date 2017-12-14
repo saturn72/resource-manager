@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
 using LabManager.Services.Commanders;
 using LabManager.Services.Resources;
-using QAutomation.Core.Services;
-using QAutomation.Core.Services.Caching;
-using QAutomation.Core.Services.Events;
-using QAutomation.Extensions;
+using Saturn72.Core.Caching;
+using Saturn72.Core.Services;
+using Saturn72.Core.Caching;
+using Saturn72.Core.Services.Events;
+using Saturn72.Extensions;
 
 namespace LabManager.Services.Instance
 {
@@ -49,7 +50,7 @@ namespace LabManager.Services.Instance
 
         private async Task<ServiceResponse<ResourceExecutionResponseData>> RunResourceCommand(long resourceId, Func<ResourceModel, int> resourceCommand, ResourceStatus resourceStatus)
         {
-            var response = new ServiceResponse<ResourceExecutionResponseData>(new ResourceExecutionResponseData(), ServiceRequestType.Command);
+            var response = new ServiceResponse<ResourceExecutionResponseData>(ServiceRequestType.Command){Model = new ResourceExecutionResponseData(), };
             if (resourceId <= 0)
             {
                 response.ErrorMessage = "Illegal resource Id";
@@ -68,14 +69,14 @@ namespace LabManager.Services.Instance
                 resource.Status = resourceStatus;
                 _auditHelper.PrepareForUpdateAudity(resource);
                 _resourceRepository.Update(resource);
-                _eventPublisher.DomainModelUpdated(resource);
+                _eventPublisher.PublishToAllDomainModelCreatedEvent(resource);
 
                 result = resourceCommand(resource);
 
                 resource.Status = ResourceStatus.Available;
                 _auditHelper.PrepareForUpdateAudity(resource);
                 _resourceRepository.Update(resource);
-                _eventPublisher.DomainModelUpdated(resource);
+                _eventPublisher.PublishToAllDomainModelCreatedEvent(resource);
 
             });
 

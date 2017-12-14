@@ -18,11 +18,8 @@
     <DotNetCliToolReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Tools" Version="2.0.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\QAutomation.Core.Services\QAutomation.Core.Services.csproj" />
-    <ProjectReference Include="..\Core\QAutomation.Core\QAutomation.Core.csproj" />
     <ProjectReference Include="..\LabManager.Common\LabManager.Common.csproj" />
     <ProjectReference Include="..\LabManager.Services\LabManager.Services.csproj" />
     <ProjectReference Include="..\LabManager.DbModel\LabManager.DbModel.csproj" />
-    <ProjectReference Include="..\QAutomation.Extensions\QAutomation.Extensions.csproj" />
   </ItemGroup>
 </Project>

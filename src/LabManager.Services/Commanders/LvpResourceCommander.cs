@@ -6,7 +6,7 @@ using System.Linq;
 using System.Threading;
 using LabManager.Common.Domain.Resource;
 using LabManager.Services.Ssh;
-using QAutomation.Extensions;
+using Saturn72.Extensions;
 
 namespace LabManager.Services.Commanders
 {

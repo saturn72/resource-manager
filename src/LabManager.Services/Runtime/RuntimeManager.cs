@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
 using LabManager.Services.Resources;
-using QAutomation.Core.Services;
-using QAutomation.Core.Services.Caching;
-using QAutomation.Extensions;
+using Saturn72.Core.Caching;
+using Saturn72.Core.Services;
+using Saturn72.Extensions;
 
 namespace LabManager.Services.Runtime
 {
@@ -34,7 +34,7 @@ namespace LabManager.Services.Runtime
         #region RequestResourceAssignmentAsync
         public async Task<ServiceResponse<ResourceAssignmentResponse>> RequestResourceAssignmentAsync(ResourceAssignmentRequest assignRequest, bool availableOnly = true)
         {
-            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Read);
+            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Read);
 
             var requestedResource = await GetRequestedResources(assignRequest);
             ValidateRequestedResources(requestedResource, srvRes, assignRequest);
@@ -83,7 +83,7 @@ namespace LabManager.Services.Runtime
         #endregion
         public async Task<ServiceResponse<ResourceAssignmentResponse>> AssignResourcesAsync(string sessionId)
         {
-            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Approve);
+            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Approve){Model = null};
             if (!sessionId.HasValue())
             {
                 srvRes.ErrorMessage = "The specified session-id is empty";

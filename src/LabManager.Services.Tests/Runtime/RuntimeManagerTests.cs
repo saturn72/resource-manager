@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using Moq;
 using Xunit;
-using QAutomation.Core.Services;
+using Saturn72.Core.Services;
 using LabManager.Services.Runtime;
 using LabManager.Services.Resources;
 using LabManager.Common.Domain.Resource;
 using Shouldly;
-using QAutomation.Core.Services.Caching;
+using Saturn72.Core.Caching;
 
 namespace LabManager.Services.Tests.Runtime
 {
@@ -102,7 +102,7 @@ namespace LabManager.Services.Tests.Runtime
 
             var mgr = new RuntimeManager(rsSrv.Object, null);
             var res = await mgr.RequestResourceAssignmentAsync(assReq);
-            res.RequestType = ServiceRequestType.Read;
+            res.RequestType.ShouldBe(ServiceRequestType.Read);
             res.Result.ShouldBe(ServiceResponseResult.Fail);
             res.HasErrors().ShouldBeTrue();
         }
@@ -127,7 +127,7 @@ namespace LabManager.Services.Tests.Runtime
 
             var mgr = new RuntimeManager(rsSrv.Object, null);
             var res = await mgr.RequestResourceAssignmentAsync(assReq);
-            res.RequestType = ServiceRequestType.Read;
+            res.RequestType.ShouldBe(ServiceRequestType.Read);
             res.Result.ShouldBe(ServiceResponseResult.Fail);
         }
 
@@ -156,12 +156,12 @@ namespace LabManager.Services.Tests.Runtime
 
             var mgr = new RuntimeManager(rsSrv.Object, cm.Object);
             var res = await mgr.RequestResourceAssignmentAsync(assReq);
-            res.RequestType = ServiceRequestType.Read;
+            res.RequestType.ShouldBe(ServiceRequestType.Read);
             res.Result.ShouldBe(ServiceResponseResult.Success);
             res.HasErrors().ShouldBeFalse();
 
             //cached session
-            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<ResourceAssignmentResponse>(), It.IsAny<uint>()),
+            cm.Verify(c => c.Set(It.IsAny<string>(), It.IsAny<ResourceAssignmentResponse>(), It.IsAny<int>()),
                 Times.Once);
         }
 

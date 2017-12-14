@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LabManager.Services.Instance;
-using QAutomation.Core.Services;
+using Saturn72.Core.Services;
 
 namespace LabManager.WebService.Controllers
 {

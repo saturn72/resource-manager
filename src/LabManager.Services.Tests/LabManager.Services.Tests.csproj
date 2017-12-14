@@ -11,7 +11,6 @@
     <PackageReference Include="xunit.runner.visualstudio" Version="2.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Core\QAutomation.Core.Services\QAutomation.Core.Services.csproj" />
     <ProjectReference Include="..\LabManager.Common\LabManager.Common.csproj" />
     <ProjectReference Include="..\LabManager.Services\LabManager.Services.csproj" />
   </ItemGroup>

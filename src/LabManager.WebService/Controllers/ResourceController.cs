@@ -6,8 +6,8 @@ using LabManager.WebService.Models.Resources;
 using Microsoft.AspNetCore.Mvc;
 using LabManager.Services.Resources;
 using LabManager.WebService.Infrastructure;
-using QAutomation.Extensions;
-using QAutomation.Core.Services;
+using Saturn72.Extensions;
+using Saturn72.Core.Services;
 
 #endregion
 

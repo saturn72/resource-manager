@@ -1,7 +1,7 @@
 ﻿#region Usings
 
 using QAutomation.Core.Domain;
-using QAutomation.Extensions;
+using Saturn72.Extensions;
 
 #endregion
 

@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using QAutomation.Core.Services;
+using Saturn72.Core.Services;
 
 namespace LabManager.Services.Runtime
 {

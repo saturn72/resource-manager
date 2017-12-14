@@ -9,7 +9,7 @@ using Moq;
 using Shouldly;
 using Xunit;
 using LabManager.Services.Runtime;
-using QAutomation.Core.Services;
+using Saturn72.Core.Services;
 using LabManager.Common.Domain.Resource;
 
 namespace LabManager.WebService.Tests.Controllers
@@ -51,21 +51,22 @@ namespace LabManager.WebService.Tests.Controllers
                 //null response
                 null as ServiceResponse<ResourceAssignmentResponse>,
                 //null model return
-                new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Read),
+                new ServiceResponse<ResourceAssignmentResponse>( ServiceRequestType.Read),
                 //missing session Id
-                new ServiceResponse<ResourceAssignmentResponse>(runtimeSession, ServiceRequestType.Read),
+                new ServiceResponse<ResourceAssignmentResponse>( ServiceRequestType.Read)
+                {Model = runtimeSession},
                 //un-successful result
-                new ServiceResponse<ResourceAssignmentResponse>(runtimeSession, ServiceRequestType.Read)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Read)
                 {
                     Model = new ResourceAssignmentResponse(sessionId, null) {Resources = new[] {new ResourceModel()}}
                 },
                 //missing resource
-                new ServiceResponse<ResourceAssignmentResponse>(runtimeSession, ServiceRequestType.Read)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Read)
                 {
                     Model = runtimeSession
                 },
                 //missing resource
-                new ServiceResponse<ResourceAssignmentResponse>(runtimeSession, ServiceRequestType.Read)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Read)
                 {
                     Model = runtimeSession,
                     ErrorMessage = "some-error"
@@ -98,9 +99,9 @@ namespace LabManager.WebService.Tests.Controllers
                 }
             };
 
-            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(
-                new ResourceAssignmentResponse("123", null) {Resources = expResource}, ServiceRequestType.Read)
+            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Read)
             {
+                Model = new ResourceAssignmentResponse("123", null) { Resources = expResource },
                 Result = ServiceResponseResult.Success
             };
             var rm = new Mock<IRuntimeManager>();
@@ -127,34 +128,34 @@ namespace LabManager.WebService.Tests.Controllers
             {
                 (null as ServiceResponse<ResourceAssignmentResponse>),
                 //has error messages
-                new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Create)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Create)
                 {
                     ErrorMessage = "some-error-message"
                 },
                 //Result != success
-                new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Create)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Create)
                 {
                     Result = ServiceResponseResult.Fail
                 },
                 //model is null
-                new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Create)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Create)
                 {
                     Result = ServiceResponseResult.Success
                 },
                 //session Id is null
-                new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Create)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Create)
                 {
                     Result = ServiceResponseResult.Success,
                     Model = new ResourceAssignmentResponse(null, null)
                 },
                 //Resourcesw are null
-                new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Create)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Create)
                 {
                     Result = ServiceResponseResult.Success,
                     Model = new ResourceAssignmentResponse("123", null)
                 },
                 //Status!=Assigned
-                new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Create)
+                new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Create)
                 {
                     Result = ServiceResponseResult.Success,
                     Model = new ResourceAssignmentResponse("123", null)
@@ -187,7 +188,7 @@ namespace LabManager.WebService.Tests.Controllers
         [Fact]
         public async Task RuntimeController_Post_AssignApproved()
         {
-            var srvRes = new ServiceResponse<ResourceAssignmentResponse>(null, ServiceRequestType.Create)
+            var srvRes = new ServiceResponse<ResourceAssignmentResponse>( ServiceRequestType.Create)
             {
                 Result = ServiceResponseResult.Success,
                 Model = new ResourceAssignmentResponse("123", null)

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using LiteDB;
-using QAutomation.Core.Domain;
+using Saturn72.Core.Domain;
 
 namespace LabManager.DbModel
 {

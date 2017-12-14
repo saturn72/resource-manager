@@ -5,7 +5,7 @@ using Moq;
 using Xunit;
 using Shouldly;
 using LabManager.Services.Instance;
-using QAutomation.Core.Services;
+using Saturn72.Core.Services;
 
 namespace LabManager.WebService.Tests.Controllers
 {
@@ -33,8 +33,8 @@ namespace LabManager.WebService.Tests.Controllers
             var iSrv = new Mock<IInstanceService>();
             var startResponseData = new ResourceExecutionResponseData();
             var srvRes =
-                new ServiceResponse<ResourceExecutionResponseData>(startResponseData,
-                    ServiceRequestType.Command);
+                new ServiceResponse<ResourceExecutionResponseData>(ServiceRequestType.Command)
+                {Model = startResponseData};
             iSrv.Setup(i => i.StartAsync(It.IsAny<long>())).Returns(()=> Task.FromResult(srvRes));
             var ic = new InstanceController(iSrv.Object);
             var res1 = await ic.StartAsync(resourceId: 123);
@@ -67,8 +67,7 @@ namespace LabManager.WebService.Tests.Controllers
         {
             var iSrv = new Mock<IInstanceService>();
             var stopResponseData = new ResourceExecutionResponseData();
-            var srvRes = new ServiceResponse<ResourceExecutionResponseData>(stopResponseData,
-                    ServiceRequestType.Command);
+            var srvRes = new ServiceResponse<ResourceExecutionResponseData>(ServiceRequestType.Command){Model = stopResponseData, };
             iSrv.Setup(i => i.StopAsync(It.IsAny<long>())).Returns(() => Task.FromResult(srvRes));
             var ic = new InstanceController(iSrv.Object);
             var res1 = await ic.StopAsync(resourceId: 123);

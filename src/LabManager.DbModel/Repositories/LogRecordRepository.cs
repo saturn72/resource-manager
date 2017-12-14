@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
-using QAutomation.Core.Domain.Logging;
-using QAutomation.Core.Services.Logging;
+using Saturn72.Core.Domain.Logging;
+using Saturn72.Core.Services.Logging;
 
 namespace LabManager.DbModel.Repositories
 {
@@ -23,20 +23,20 @@ namespace LabManager.DbModel.Repositories
 
         public void Delete(long logRecordId)
         {
-            _dbAdapter.DeleteById<LogRecordDomainModel>(logRecordId);
+            _dbAdapter.DeleteById<LogRecordModel>(logRecordId);
         }
 
-        public IEnumerable<LogRecordDomainModel> GetAll()
+        public IEnumerable<LogRecordModel> GetAll()
         {
-            return _dbAdapter.GetAll<LogRecordDomainModel>();
+            return _dbAdapter.GetAll<LogRecordModel>();
         }
 
-        public LogRecordDomainModel GetById(long logRecordId)
+        public LogRecordModel GetById(long logRecordId)
         {
-            return _dbAdapter.GetById<LogRecordDomainModel>(logRecordId);
+            return _dbAdapter.GetById<LogRecordModel>(logRecordId);
         }
 
-        public long Create(LogRecordDomainModel logRecordModel)
+        public long Create(LogRecordModel logRecordModel)
         {
             _dbAdapter.Create(logRecordModel);
             return logRecordModel.Id;
