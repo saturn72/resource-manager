@@ -6,7 +6,15 @@ namespace LabManager.Services.Runtime
 {
     public class ResourceAssignmentRequest
     {
-        public IEnumerable<ResourceModel> RequiredResources { get; set; }
+        private IEnumerable<ResourceModel> _requiredResources;
+
+        public IEnumerable<ResourceModel> RequiredResources
+        {
+            get => _requiredResources ?? (_requiredResources = new List<ResourceModel>());
+            set => _requiredResources = value;
+        }
+
         public string ClientReferenceCode { get; set; }
+        public int ResourceCount { get; set; }
     }
 }

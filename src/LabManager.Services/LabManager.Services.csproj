@@ -9,6 +9,12 @@
     <ProjectReference Include="..\LabManager.Common\LabManager.Common.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="SquishAutomationDotNet">
+      <HintPath>libs\squish\SquishAutomationDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
   </PropertyGroup>

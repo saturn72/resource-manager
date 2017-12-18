@@ -5,7 +5,12 @@ namespace LabManager.WebService.Models.Runtime
 {
     public class ResourceAssignmentRequestApiModel
     {
-        public IEnumerable<ResourceApiModel> RequiredResources { get; set; }
+        public ResourceAssignmentRequestApiModel()
+        {
+            ResourceCount = 1;
+        }
+        public int ResourceCount { get; set; }
+        public IEnumerable<ResourceApiModel> Filter { get; set; }
         public string ClientReferenceCode { get; set; }
     }
 }

@@ -9,6 +9,7 @@ using LabManager.Services.Resources;
 using LabManager.Common.Domain.Resource;
 using Shouldly;
 using Saturn72.Core.Caching;
+using Saturn72.Core;
 
 namespace LabManager.Services.Tests.Runtime
 {

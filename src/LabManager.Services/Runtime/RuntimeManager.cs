@@ -36,15 +36,15 @@ namespace LabManager.Services.Runtime
         {
             var srvRes = new ServiceResponse<ResourceAssignmentResponse>(ServiceRequestType.Read);
 
-            var requestedResource = await GetRequestedResources(assignRequest);
-            ValidateRequestedResources(requestedResource, srvRes, assignRequest);
+            var requestedResources = await GetRequestedResources(assignRequest);
+            ValidateRequestedResources(requestedResources, srvRes, assignRequest);
             if (srvRes.HasErrors())
                 return srvRes;
 
             srvRes.Model = CreateResourceAssignmentResponse(assignRequest);
             srvRes.Model.Resources = availableOnly
-                ? requestedResource.Where(r => GetResourceAvailability(r.Id) == ResourceStatus.Available).ToArray()
-                : requestedResource;
+                ? requestedResources.Where(r => GetResourceAvailability(r.Id) == ResourceStatus.Available).ToArray()
+                : requestedResources;
             srvRes.Result = ServiceResponseResult.Success;
             _cacheManager.Set(srvRes.Model.SessionId, srvRes.Model);
             return srvRes;
@@ -63,21 +63,30 @@ namespace LabManager.Services.Runtime
             {
                 serviceResponse.ErrorMessage = "Insufficient Resources";
                 serviceResponse.Result = ServiceResponseResult.Fail;
-                return;
             }
         }
 
         private async Task<IEnumerable<ResourceModel>> GetRequestedResources(ResourceAssignmentRequest assignRequest)
         {
-            var allResources = new List<ResourceModel>();
-            foreach (var rr in assignRequest.RequiredResources)
+            var allAvailableResources = new List<ResourceModel>();
+
+            if (assignRequest.RequiredResources.IsEmptyOrNull())
             {
-                var range = await _resourceService.GetAllAsync(rr);
-                if (range.IsEmptyOrNull())
-                    continue;
-                allResources.AddRange(range);
+                var range = await _resourceService.GetAllAsync();
+                allAvailableResources.AddRange(range);
             }
-            return allResources?.Distinct().Where(r => r.Active);
+            else
+            {
+                foreach (var rr in assignRequest.RequiredResources)
+                {
+                    var range = await _resourceService.GetAllAsync(rr);
+                    if (range.IsEmptyOrNull())
+                        continue;
+                    allAvailableResources.AddRange(range);
+                }
+            }
+           
+            return allAvailableResources?.Distinct().Where(r => r.Active).Take(assignRequest.ResourceCount);
         }
 
         #endregion

@@ -73,8 +73,8 @@ namespace LabManager.WebService.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateAsync([FromBody] ResourceApiModel resource)
         {
-            if(resource.IsNull())
-                return BadRequest(resource);
+            if(resource.IsNull() || resource.Id <=0)
+                return BadRequest("Missing Resource Id");
 
             var srvRes = await _resourceService.UpdateAsync(resource.ToModel());
             return !srvRes.HasErrors() && srvRes.Result == ServiceResponseResult.Success

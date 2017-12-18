@@ -15,6 +15,9 @@ namespace LabManager.Services.Commanders
         #region Consts
 
         private const string QcGui = "QC_GUI";
+        private const string NoHupCommandFormat = "nohup {0} >/dev/null 2>&1 &";
+        private const ushort AutPort = 8002;
+        private const int Failure = -666;
 
         #endregion
 
@@ -46,7 +49,8 @@ namespace LabManager.Services.Commanders
 
         private void StartSquishServer(ActiveRuntime activeRuntime, ResourceModel resource)
         {
-            var squishServerPath = @"C:\Program Files\Squish\bin\squishserver.exe";
+            var squishServerPath = Path.Combine(resource.SquishServerLocalPath, "bin", "squishserver.exe");
+
             //First configure squish server
             var configPsi = new ProcessStartInfo
             {
@@ -72,7 +76,6 @@ namespace LabManager.Services.Commanders
             activeRuntime.LocalProcessesIds.Add(squishServerProcess.Id);
         }
 
-
         public int Stop(ResourceModel resource)
         {
             if (StopAutViaSsh(resource) != 0)
@@ -96,22 +99,13 @@ namespace LabManager.Services.Commanders
 
         private void StartLocalServices(ActiveRuntime activeRuntime, ResourceModel resource)
         {
+           
             CheckResourceCompatibilityForSquish(resource);
             StartSquishServer(activeRuntime, resource);
-            throw new NotImplementedException("Start Squish CMD not implemented");
         }
 
 
-        #region consts
-
-        private const string NoHupCommandFormat = "nohup {0} >/dev/null 2>&1 &";
-        private const ushort AutPort = 8002;
-        private const int Failure = -666;
-
-        #endregion
-
         #region Utilities
-
         private bool IsAutProcessAlive(ResourceModel resource)
         {
             CheckResourceCompatibilityForSsh(resource);

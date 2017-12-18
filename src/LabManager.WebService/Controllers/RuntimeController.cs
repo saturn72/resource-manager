@@ -29,10 +29,10 @@ namespace LabManager.WebService.Controllers
 
         #region  Read
 
-        [HttpGet("isassigned/{resourceId}")]
+        [HttpGet("IsAssigned/{resourceId}")]
         public async Task<IActionResult> IsAssigned(long resourceId)
         {
-            if (resourceId<=0)
+            if (resourceId <= 0)
                 return BadRequest(new
                 {
                     message = "ResourceId is required"
@@ -42,10 +42,11 @@ namespace LabManager.WebService.Controllers
         }
 
         #endregion
+        #region POST
         [HttpPost]
         public async Task<IActionResult> RequestAssignment([FromBody] ResourceAssignmentRequestApiModel assignRequest)
         {
-            var srvRes = await _runtimeManager.RequestResourceAssignmentAsync(assignRequest.ToModel());
+            var srvRes = await _runtimeManager.RequestResourceAssignmentAsync(assignRequest?.ToModel());
 
             return CheckAssignResponse(srvRes)
                 ? Ok(new
@@ -56,10 +57,12 @@ namespace LabManager.WebService.Controllers
                 : new NotFoundObjectResult(assignRequest) as IActionResult;
         }
 
+        #endregion
+
         [HttpGet("{sessionId}")]
         public async Task<IActionResult> AssignSessionAsync(string sessionId)
         {
-            if(!sessionId.HasValue())
+            if (!sessionId.HasValue())
                 return BadRequest(new
                 {
                     message = "SessionId is required"
@@ -77,6 +80,8 @@ namespace LabManager.WebService.Controllers
             ;
         }
 
+        #region Utilities
+
         private bool CheckAssignResponse(ServiceResponse<ResourceAssignmentResponse> serviceResponse)
         {
             var resModel = serviceResponse?.Model;
@@ -88,5 +93,7 @@ namespace LabManager.WebService.Controllers
                    && resModel.SessionId.HasValue()
                    && !resModel.Resources.IsEmptyOrNull();
         }
+
+        #endregion
     }
 }

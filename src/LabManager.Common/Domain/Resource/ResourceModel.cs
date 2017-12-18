@@ -20,5 +20,6 @@ namespace LabManager.Common.Domain.Resource
         public string SshPassword { get; set; }
         public ushort SquishServerPort { get; set; }
         public string SquishServerLocalPath { get; set; }
+        public string ObjectMapFilePath { get; set; }
     }
 }

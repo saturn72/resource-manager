@@ -29,6 +29,7 @@ namespace LabManager.WebService.Infrastructure
                 SshPassword = source.SshPassword,
                 SquishServerPort = source.SquishServerPort,
                 SquishServerLocalPath = source.SquishServerLocalPath,
+                ObjectMapFilePath = source.ObjectMapFilePath
             };
         }
        
@@ -44,6 +45,7 @@ namespace LabManager.WebService.Infrastructure
                 SshPassword = source.SshPassword,
                 SquishServerPort = source.SquishServerPort,
                 SquishServerLocalPath = source.SquishServerLocalPath,
+                ObjectMapFilePath = source.ObjectMapFilePath
             };
         }
 
@@ -55,8 +57,9 @@ namespace LabManager.WebService.Infrastructure
         {
             return new ResourceAssignmentRequest
             {
-                RequiredResources = source.RequiredResources.Select<ResourceApiModel, ResourceModel>(s => s.ToModel()),
-                ClientReferenceCode = source.ClientReferenceCode
+                RequiredResources = source.Filter?.Select(ToModel),
+                ClientReferenceCode = source.ClientReferenceCode,
+                ResourceCount = source.ResourceCount,
             };
         }
         #endregion

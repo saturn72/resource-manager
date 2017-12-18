@@ -44,7 +44,7 @@ namespace LabManager.WebService.Tests.Controllers
         {
             var assReq = new ResourceAssignmentRequestApiModel
             {
-                RequiredResources = new[]
+                Filter = new[]
                 {
                     new ResourceApiModel
                     {
@@ -103,7 +103,7 @@ namespace LabManager.WebService.Tests.Controllers
         {
             var filter = new ResourceAssignmentRequestApiModel
             {
-                RequiredResources = new[]
+                Filter = new[]
                 {
                     new ResourceApiModel
                     {

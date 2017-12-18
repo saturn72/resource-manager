@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
+using Microsoft.AspNetCore.Mvc.TagHelpers;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Services;
 using Saturn72.Core.Services.Events;
@@ -135,7 +137,14 @@ namespace LabManager.Services.Resources
                 dbModel.SshUsername = resource.SshUsername;
             if (resource.SshPassword.HasValue())
                 dbModel.SshPassword = resource.SshPassword;
-            if(resource.SquishServerPort != default(ushort))
+            if (resource.SquishServerLocalPath.HasValue())
+                dbModel.SquishServerLocalPath = resource.SquishServerLocalPath;
+            if (resource.ObjectMapFilePath.HasValue())
+                dbModel.ObjectMapFilePath = resource.ObjectMapFilePath
+                    .Replace(Path.VolumeSeparatorChar.ToString(), "")
+                    .Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            if (resource.SquishServerPort != default(ushort))
                 dbModel.SquishServerPort = resource.SquishServerPort;
             dbModel.Active = resource.Active;
 
