@@ -8,7 +8,7 @@ namespace LabManager.IntegrationTests.Api
 {
     public class ResourceApiTests:IntegrationTestBase
     {
-        internal override string Resource => "/api/resource/";
+        internal override string ResourceUri => "/api/resource/";
 
 
         [Fact]
@@ -22,7 +22,7 @@ namespace LabManager.IntegrationTests.Api
                 friendlyName = fName,
                 ipAddress = ipAddress
             };
-            var createReq = BuildRequest(HttpMethod.Post, Resource, model);
+            var createReq = BuildRequest(HttpMethod.Post, ResourceUri, model);
             var createRes = await Client.SendAsync(createReq);
             createRes.EnsureSuccessStatusCode();
             var jo = await ExtractJObject(createRes);
@@ -30,7 +30,7 @@ namespace LabManager.IntegrationTests.Api
             id.ShouldBeGreaterThan(0);
 
             //GetById
-            var getByIdRes = await Client.GetAsync(Resource + id);
+            var getByIdRes = await Client.GetAsync(ResourceUri + id);
             getByIdRes.EnsureSuccessStatusCode();
 
             var getByIdResJO = await ExtractJObject(getByIdRes);
@@ -38,7 +38,7 @@ namespace LabManager.IntegrationTests.Api
             getByIdResJO["ipAddress"].ToString().ShouldBe(ipAddress);
 
             //GetAll
-            var getAllRes = await Client.GetAsync(Resource);
+            var getAllRes = await Client.GetAsync(ResourceUri);
             getAllRes.EnsureSuccessStatusCode();
 
             var ja = await ExtractJArray(getAllRes);

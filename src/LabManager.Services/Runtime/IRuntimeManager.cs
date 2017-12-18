@@ -7,5 +7,6 @@ namespace LabManager.Services.Runtime
     {
         Task<ServiceResponse<ResourceAssignmentResponse>> RequestResourceAssignmentAsync(ResourceAssignmentRequest assignRequest, bool availableOnly = true);
         Task<ServiceResponse<ResourceAssignmentResponse>> AssignResourcesAsync(string sessionId);
+        Task<bool> IsAssigned(long resourceId);
     }
 }

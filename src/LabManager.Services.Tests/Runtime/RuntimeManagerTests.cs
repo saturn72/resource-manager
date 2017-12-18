@@ -166,5 +166,19 @@ namespace LabManager.Services.Tests.Runtime
         }
 
         #endregion
+
+        #region IsAssigned
+
+        [Fact]
+        public async Task RuntimeManager_IsAssigned()
+        {
+            throw new NotImplementedException("Save current resource state to db");
+            //var runtimeManager = new RuntimeManager(null, null);
+
+            //(await runtimeManager.IsAssigned(123)).ShouldBeFalse();
+
+            //(await runtimeManager.IsAssigned(123)).ShouldBeTrue();
+        }
+        #endregion
     }
 }

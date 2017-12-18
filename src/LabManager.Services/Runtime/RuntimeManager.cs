@@ -104,9 +104,16 @@ namespace LabManager.Services.Runtime
                 await _resourceService.UpdateAsync(resource);
             }
             resAssignResponse.Status = ResourceAssignmentStatus.Assigned;
+            //TODO: save to persistancy layer here
             srvRes.Model = resAssignResponse;
             srvRes.Result = ServiceResponseResult.Success;
             return srvRes;
+        }
+
+        public Task<bool> IsAssigned(long resourceId)
+        {
+
+            throw new NotImplementedException("Save current status to DB was not implemented");
         }
 
         private ResourceStatus GetResourceAvailability(long resourceId)

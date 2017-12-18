@@ -17,6 +17,8 @@ using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Logging;
 using Swashbuckle.AspNetCore.Swagger;
 using Saturn72.Core.Services.Caching;
+using Saturn72.Core.Configuration;
+using Saturn72.Core.Services.Configuration;
 
 namespace LabManager.WebService
 {
@@ -43,6 +45,9 @@ namespace LabManager.WebService
 
         private void RegisterDependencies(IServiceCollection services)
         {
+            //Core components
+            services.AddSingleton<IConfigManager, ConfigManager>();
+
             //Audity
             var auditHelper = new AuditHelper(new LabManagerWorkContext());
             services.AddSingleton<AuditHelper>(auditHelper);
@@ -62,10 +67,15 @@ namespace LabManager.WebService
             services.AddScoped<IResourceCommander, LvpResourceCommander>();
             services.AddScoped<IRuntimeManager, RuntimeManager>();
 
-            const string dbName = "lab-manager.db";
-            LiteDbMapper.Map(dbName);
-            var liteDbAdapter = new LiteDbAdapter(dbName);
-            services.AddSingleton<IDbAdapter>(liteDbAdapter);
+            services.AddSingleton<IDbAdapter>(sp =>
+            {
+                var configManager = sp.GetService<IConfigManager>();
+                var liteDbConfig = configManager.GetConfig<LiteDbConfig>();
+                var dbName = liteDbConfig.DbName;
+                LiteDbMapper.Map(dbName);
+                var dbAdapter = new LiteDbAdapter(dbName);
+                return dbAdapter;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

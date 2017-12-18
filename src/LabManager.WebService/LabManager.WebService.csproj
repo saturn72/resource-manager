@@ -22,4 +22,9 @@
     <ProjectReference Include="..\LabManager.Services\LabManager.Services.csproj" />
     <ProjectReference Include="..\LabManager.DbModel\LabManager.DbModel.csproj" />
   </ItemGroup>
+  <ItemGroup>
+    <Content Update="Settings\settings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+  </ItemGroup>
 </Project>

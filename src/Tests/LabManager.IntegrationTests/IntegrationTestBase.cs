@@ -1,4 +1,5 @@
-﻿using System.Net.Http;
+﻿using System.IO;
+using System.Net.Http;
 using System.Text;
 using System.Threading.Tasks;
 using LabManager.WebService;
@@ -10,17 +11,22 @@ namespace LabManager.IntegrationTests
 {
     public abstract class IntegrationTestBase
     {
+        private const string DbPath = "resource-manager-test.db";
+
         protected readonly HttpClient Client;
         protected readonly TestServer Server;
 
         protected IntegrationTestBase()
         {
+            if (File.Exists(DbPath))
+                File.Delete(DbPath);
+
             Server = new TestServer(new WebHostBuilder()
                 .UseStartup<Startup>());
             Client = Server.CreateClient();
         }
 
-        internal abstract string Resource { get; }
+        internal abstract string ResourceUri { get; }
 
         protected HttpRequestMessage BuildRequest(HttpMethod httpMethod, string relativeUri, object content)
         {

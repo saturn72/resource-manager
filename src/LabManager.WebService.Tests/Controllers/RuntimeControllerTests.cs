@@ -19,6 +19,27 @@ namespace LabManager.WebService.Tests.Controllers
 
         #region Get
 
+        [Fact]
+        public async Task RuntimeController_IsAssigned()
+        {
+            var rm = new Mock<IRuntimeManager>();
+            bool assignedResult = false;
+            rm.Setup(r => r.IsAssigned(It.IsAny<long>()))
+                .Returns(() => Task.FromResult(assignedResult));
+
+            var runtimeCtrl = new RuntimeController(rm.Object);
+            var expFalseRes = await runtimeCtrl.IsAssigned(123);
+            var falseVal = expFalseRes.ShouldBeOfType<OkObjectResult>();
+            (bool.Parse(falseVal.Value.ToString())).ShouldBeFalse();
+
+
+            assignedResult = true;
+            var expTrueRes = await runtimeCtrl.IsAssigned(123);
+            var trueVal = expTrueRes.ShouldBeOfType<OkObjectResult>();
+            (bool.Parse(trueVal.Value.ToString())).ShouldBeTrue();
+
+        }
+
         public async Task ValidateRuntimeManagerGetAsyncFailures(ServiceResponse<ResourceAssignmentResponse> srvRes)
         {
             var assReq = new ResourceAssignmentRequestApiModel

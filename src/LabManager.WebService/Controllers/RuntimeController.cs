@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System;
+using System.Threading.Tasks;
 using LabManager.WebService.Infrastructure;
 using LabManager.WebService.Models.Runtime;
 using Microsoft.AspNetCore.Mvc;
@@ -26,6 +27,21 @@ namespace LabManager.WebService.Controllers
 
         #endregion
 
+        #region  Read
+
+        [HttpGet("isassigned/{resourceId}")]
+        public async Task<IActionResult> IsAssigned(long resourceId)
+        {
+            if (resourceId<=0)
+                return BadRequest(new
+                {
+                    message = "ResourceId is required"
+                });
+            var isAssigned = await _runtimeManager.IsAssigned(resourceId);
+            return Ok(isAssigned);
+        }
+
+        #endregion
         [HttpPost]
         public async Task<IActionResult> RequestAssignment([FromBody] ResourceAssignmentRequestApiModel assignRequest)
         {
@@ -40,9 +56,15 @@ namespace LabManager.WebService.Controllers
                 : new NotFoundObjectResult(assignRequest) as IActionResult;
         }
 
-        [HttpGet]
+        [HttpGet("{sessionId}")]
         public async Task<IActionResult> AssignSessionAsync(string sessionId)
         {
+            if(!sessionId.HasValue())
+                return BadRequest(new
+                {
+                    message = "SessionId is required"
+                });
+
             var srvRes = await _runtimeManager.AssignResourcesAsync(sessionId);
             return CheckAssignResponse(srvRes)
                    && srvRes.Model.Status == ResourceAssignmentStatus.Assigned
