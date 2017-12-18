@@ -5,7 +5,6 @@ using LabManager.Services.Commanders;
 using LabManager.Services.Resources;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Services;
-using Saturn72.Core.Caching;
 using Saturn72.Core.Services.Events;
 using Saturn72.Extensions;
 

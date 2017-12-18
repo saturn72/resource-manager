@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using LabManager.Services.Instance;
 using Shouldly;
 using System.Threading.Tasks;
@@ -12,6 +13,7 @@ using Saturn72.Core.Services;
 using Saturn72.Core;
 using Saturn72.Core.Services.Events;
 using LabManager.Services.Commanders;
+using Saturn72.Core.Audit;
 
 namespace LabManager.Services.Tests.Instance
 {
@@ -62,12 +64,12 @@ namespace LabManager.Services.Tests.Instance
             var wc = new Mock<IWorkContext>();
             wc.Setup(w => w.CurrentUserId).Returns(123);
             var ah = new Mock<AuditHelper>(wc.Object);
-            ah.Setup(a => a.PrepareForUpdateAudity(It.IsAny<ResourceModel>()))
-                .Callback<ResourceModel>(r => callList.Add("ah_" + r.Status.ToString()));
+            ah.Setup(a => a.PrepareForUpdateAudity(It.IsAny<IUpdateAudit>()))
+                .Callback<IUpdateAudit>(r => callList.Add("ah_" + (r as ResourceModel).Status.ToString()));
 
             var ep = new Mock<IEventPublisher>();
-            ep.Setup(a => a.PublishAsync(It.IsAny<DomainModelUpdatedEvent<ResourceModel>>()))
-                .Callback<DomainModelUpdatedEvent<ResourceModel>>(r => callList.Add("ep_" + r.Model.Status.ToString()));
+            ep.Setup(a => a.PublishAsync(It.IsAny<DomainModelUpdatedEvent<ResourceModel>>(), CancellationToken.None))
+                .Callback<DomainModelUpdatedEvent<ResourceModel>, CancellationToken>((r,c) => callList.Add("ep_" + r.Model.Status.ToString()));
             var rr = new Mock<IResourceRepository>();
             rr.Setup(r => r.Update(It.IsAny<ResourceModel>()))
                 .Callback<ResourceModel>(r => callList.Add("rr_" + r.Status.ToString()));
@@ -92,7 +94,7 @@ namespace LabManager.Services.Tests.Instance
             res1.Result.ShouldBe(ServiceResponseResult.Success);
 
             res1.Model.Executed.ShouldBeTrue();
-            rc.Verify(r=>r.Start(It.IsAny<ResourceModel>()), Times.Once);
+            rc.Verify(r => r.Start(It.IsAny<ResourceModel>()), Times.Once);
             //verify
             foreach (var item in new[] { "ah", "rr", "ep" })
             {
@@ -123,7 +125,7 @@ namespace LabManager.Services.Tests.Instance
         }
 
         #endregion
-      
+
         #region Stop
         [Fact]
         public async Task InstancService_Stop_IllegalResourceId()
@@ -168,12 +170,13 @@ namespace LabManager.Services.Tests.Instance
             var wc = new Mock<IWorkContext>();
             wc.Setup(w => w.CurrentUserId).Returns(123);
             var ah = new Mock<AuditHelper>(wc.Object);
-            ah.Setup(a => a.PrepareForUpdateAudity(It.IsAny<ResourceModel>()))
-                .Callback<ResourceModel>(r => callList.Add("ah_" + r.Status.ToString()));
+            ah.Setup(a => a.PrepareForUpdateAudity(It.IsAny<IUpdateAudit>()))
+                .Callback<IUpdateAudit>(r => callList.Add("ah_" + (r as ResourceModel).Status.ToString()));
 
             var ep = new Mock<IEventPublisher>();
-            ep.Setup(a => a.PublishAsync(It.IsAny<DomainModelUpdatedEvent<ResourceModel>>()))
-                .Callback<DomainModelUpdatedEvent<ResourceModel>>(r => callList.Add("ep_" + r.Model.Status.ToString()));
+            ep.Setup(a => a.PublishAsync(It.IsAny<DomainModelUpdatedEvent<ResourceModel>>(), CancellationToken.None))
+                .Callback<DomainModelUpdatedEvent<ResourceModel>, CancellationToken>((e,c) => callList.Add("ep_" + e.Model.Status.ToString()));
+
             var rr = new Mock<IResourceRepository>();
             rr.Setup(r => r.Update(It.IsAny<ResourceModel>()))
                 .Callback<ResourceModel>(r => callList.Add("rr_" + r.Status.ToString()));
@@ -199,7 +202,7 @@ namespace LabManager.Services.Tests.Instance
 
             res1.Model.Executed.ShouldBeTrue();
 
-            rc.Verify(r=>r.Stop(It.IsAny<ResourceModel>()), Times.Once);
+            rc.Verify(r => r.Stop(It.IsAny<ResourceModel>()), Times.Once);
             //verify
             foreach (var item in new[] { "ah", "rr", "ep" })
             {

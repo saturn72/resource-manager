@@ -12,6 +12,7 @@ using Shouldly;
 using Saturn72.Core.Services;
 using Saturn72.Core;
 using Saturn72.Core.Caching;
+using System.Threading;
 
 namespace LabManager.Services.Tests.Resource
 {
@@ -172,7 +173,7 @@ namespace LabManager.Services.Tests.Resource
             //verify audity
             _auditHelper.Verify(a => a.PrepareForCreateAudity(It.IsAny<ResourceModel>()), Times.Once);
             //verify event was raised
-            _eventPublisher.Verify(e => e.PublishAsync(It.IsAny<DomainModelCreatedEvent<ResourceModel>>()), Times.Once);
+            _eventPublisher.Verify(e => e.PublishAsync(It.IsAny<DomainModelCreatedEvent<ResourceModel>>(), CancellationToken.None), Times.Once);
             _eventPublisher.Verify(e => e.Publish(It.IsAny<DomainModelCreatedEvent<ResourceModel>>()), Times.Once);
         }
         #endregion
