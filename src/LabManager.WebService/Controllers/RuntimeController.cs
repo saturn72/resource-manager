@@ -71,10 +71,15 @@ namespace LabManager.WebService.Controllers
             var srvRes = await _runtimeManager.AssignResourcesAsync(sessionId);
             return CheckAssignResponse(srvRes)
                    && srvRes.Model.Status == ResourceAssignmentStatus.Assigned
-                ? Ok(sessionId)
+                ? Ok(
+                    new
+                    {
+                        @sessionId = sessionId,
+                        resources = srvRes.Model.Resources.Select(r=>r.Id).ToArray()
+                    })
                 : BadRequest(new
                 {
-                    sessionId,
+                    @sessionId = sessionId,
                     message = srvRes?.ErrorMessage ?? "Unknown Error"
                 }) as IActionResult;
             ;
