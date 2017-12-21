@@ -140,10 +140,7 @@ namespace LabManager.Services.Resources
             if (resource.SquishServerLocalPath.HasValue())
                 dbModel.SquishServerLocalPath = resource.SquishServerLocalPath;
             if (resource.ObjectMapFilePath.HasValue())
-                dbModel.ObjectMapFilePath = resource.ObjectMapFilePath
-                    .Replace(Path.VolumeSeparatorChar.ToString(), "")
-                    .Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
-
+                dbModel.ObjectMapFilePath = resource.ObjectMapFilePath;
             if (resource.SquishServerPort != default(ushort))
                 dbModel.SquishServerPort = resource.SquishServerPort;
             dbModel.Active = resource.Active;

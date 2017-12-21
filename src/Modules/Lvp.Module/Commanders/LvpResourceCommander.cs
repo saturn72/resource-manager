@@ -1,14 +1,16 @@
+using LabManager.Common.Domain.Resource;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using LabManager.Common.Domain.Resource;
-using LabManager.Services.Ssh;
 using Saturn72.Extensions;
+using LabManager.Services.Commanders;
+using LabManager.Services.Ssh;
+using Squish;
 
-namespace LabManager.Services.Commanders
+namespace Lvp.Module.Commanders
 {
     public class LvpResourceCommander : IResourceCommander
     {
@@ -18,6 +20,14 @@ namespace LabManager.Services.Commanders
         private const string NoHupCommandFormat = "nohup {0} >/dev/null 2>&1 &";
         private const ushort AutPort = 8002;
         private const int Failure = -666;
+
+        #endregion
+        #region squish Commands
+
+        private static readonly string SetWrapperCommand = "testSettings.setWrappersForApplication('{0}', ['Qt'])".AsFormat(QcGui);
+
+        private const string LoadObjectMapCommandFormat = "objectMap.load(\"{0}\");";
+
 
         #endregion
 
@@ -34,7 +44,7 @@ namespace LabManager.Services.Commanders
 
             if (StartAutViaSsh(resource) != 0)
                 return -666;
-            var activeRuntime = new ActiveRuntime {ResourceId = resource.Id};
+            var activeRuntime = new ActiveRuntime { ResourceId = resource.Id };
             try
             {
                 StartLocalServices(activeRuntime, resource);
@@ -56,7 +66,7 @@ namespace LabManager.Services.Commanders
             {
                 FileName = squishServerPath,
                 WindowStyle = ProcessWindowStyle.Hidden,
-                Arguments = string.Format("--config addAttachableAUT {0}_{1} {2}:{3}", QcGui,resource.Id,
+                Arguments = string.Format("--config addAttachableAUT {0}_{1} {2}:{3}", QcGui, resource.Id,
                     resource.IpAddress, resource.SquishServerPort),
             };
             var squishServerConfigProcess = Process.Start(configPsi);
@@ -73,7 +83,7 @@ namespace LabManager.Services.Commanders
             var squishServerProcess = Process.Start(startSquishServerPsi);
             Thread.Sleep(2000);
 
-            activeRuntime.LocalProcessesIds.Add(squishServerProcess.Id);
+            activeRuntime.LocalProcessIds.Add(squishServerProcess.Id);
         }
 
         public int Stop(ResourceModel resource)
@@ -86,7 +96,7 @@ namespace LabManager.Services.Commanders
                 return 0;
 
             //stop local services
-            foreach (var pId in activeRuntime.LocalProcessesIds)
+            foreach (var pId in activeRuntime.LocalProcessIds)
                 Process.GetProcessById(pId).Kill();
 
             return 0;
@@ -99,13 +109,37 @@ namespace LabManager.Services.Commanders
 
         private void StartLocalServices(ActiveRuntime activeRuntime, ResourceModel resource)
         {
-           
-            CheckResourceCompatibilityForSquish(resource);
+            ValidateResourceFields(resource);
             StartSquishServer(activeRuntime, resource);
+
+            //use pure javascript calls instead .net assembly
+            StartSquishCmd(activeRuntime, resource);
         }
 
+        private void StartSquishCmd(ActiveRuntime activeRuntime, ResourceModel resource)
+        {
+            var squishAgent = new Automation(resource.SquishServerLocalPath, "localhost", resource.SquishServerPort);
+            SquishFacade.Init(squishAgent);
+
+            SquishFacade.EvalAndUnref(SetWrapperCommand, oRef => { });
+            //load Object Map
+
+            var objMapPath = resource.ObjectMapFilePath
+                .Replace(Path.VolumeSeparatorChar.ToString(), "")
+                .Replace(Path.DirectorySeparatorChar, Path.AltDirectorySeparatorChar);
+
+            SquishFacade.EvalAndUnref(LoadObjectMapCommandFormat.AsFormat(objMapPath), oRef => { });
+
+            var procs = Process.GetProcessesByName("_squishcmd").ToList();
+            procs.AddRange(Process.GetProcessesByName("squishcmd"));
+
+            var pIdToAdd = procs.Select(p => p.Id).Except(activeRuntime.LocalProcessIds).ToArray();
+            foreach (var pId in pIdToAdd)
+                activeRuntime.LocalProcessIds.Add(pId);
+        }
 
         #region Utilities
+
         private bool IsAutProcessAlive(ResourceModel resource)
         {
             CheckResourceCompatibilityForSsh(resource);
@@ -119,7 +153,7 @@ namespace LabManager.Services.Commanders
             if (!sshResponse.HasValue())
                 return false;
 
-            var lines = sshResponse.Split(new[] {"\n"}, StringSplitOptions.RemoveEmptyEntries);
+            var lines = sshResponse.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
             var commandLineIndex = 0;
             int pId;
 
@@ -173,7 +207,7 @@ namespace LabManager.Services.Commanders
                 NoHupCommandFormat.AsFormat(squishCommand)
             };
             var res = RunSshCommads(resource, startAutCommands, 2000);
-            return res.HasValue()?0:1;
+            return res.HasValue() ? 0 : 1;
         }
 
         private string RunSshCommads(ResourceModel resource, IEnumerable<string> commandArray, uint preCloseDelay)
@@ -188,10 +222,14 @@ namespace LabManager.Services.Commanders
                 resource.SshPassword.IsEmptyOrNull())
                 throw new MissingMemberException("Missing resource data for ssh connection");
         }
-        private void CheckResourceCompatibilityForSquish(ResourceModel resource)
+        private void ValidateResourceFields(ResourceModel resource)
         {
             var path = resource.SquishServerLocalPath;
-            if (resource.SquishServerPort > 0 && path.HasValue() && !(File.Exists(path) || Directory.Exists(path)))
+            if (resource.SquishServerPort <= 0
+                || !path.HasValue()
+                || !(File.Exists(path) || Directory.Exists(path))
+                || !resource.ObjectMapFilePath.HasValue()
+                || !File.Exists(resource.ObjectMapFilePath))
                 throw new MissingMemberException("Missing resource data for connecting to squish");
         }
         #endregion

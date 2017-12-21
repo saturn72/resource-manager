@@ -7,7 +7,7 @@ namespace LabManager.Services.Commanders
         private ICollection<int> _localProcessesIds;
         public long ResourceId { get; set; }
 
-        public ICollection<int> LocalProcessesIds
+        public ICollection<int> LocalProcessIds
         {
             get => _localProcessesIds ?? (_localProcessesIds = new List<int>());
             internal set => _localProcessesIds = value;

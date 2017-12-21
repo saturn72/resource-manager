@@ -6,6 +6,7 @@ using LabManager.Services.Commanders;
 using LabManager.Services.Instance;
 using LabManager.Services.Resources;
 using LabManager.Services.Runtime;
+using Lvp.Module.Commanders;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;

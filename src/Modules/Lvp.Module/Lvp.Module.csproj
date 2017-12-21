@@ -1,0 +1,28 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>netcoreapp2.0</TargetFramework>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="libs\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\LabManager.Common\LabManager.Common.csproj" />
+    <ProjectReference Include="..\..\LabManager.Services\LabManager.Services.csproj" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="SquishAutomationDotNet">
+      <HintPath>..\..\..\..\..\Automation\SquishAutomationDotNet.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="libs\SquishAutomationDotNet.dll">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
+</Project>

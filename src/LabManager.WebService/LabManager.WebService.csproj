@@ -21,6 +21,7 @@
     <ProjectReference Include="..\LabManager.Common\LabManager.Common.csproj" />
     <ProjectReference Include="..\LabManager.Services\LabManager.Services.csproj" />
     <ProjectReference Include="..\LabManager.DbModel\LabManager.DbModel.csproj" />
+    <ProjectReference Include="..\Modules\Lvp.Module\Lvp.Module.csproj" />
   </ItemGroup>
   <ItemGroup>
     <Content Update="Settings\settings.json">
