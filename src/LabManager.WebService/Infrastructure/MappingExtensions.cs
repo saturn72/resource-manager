@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using LabManager.Common.Domain.Resource;
 using LabManager.WebService.Models.Resources;
@@ -35,6 +36,9 @@ namespace LabManager.WebService.Infrastructure
        
         public static ResourceModel ToModel(this ResourceApiModel source)
         {
+            while (source.SquishServerLocalPath.EndsWith('\\'))
+                source.SquishServerLocalPath = source.SquishServerLocalPath.Substring(0, source.SquishServerLocalPath.Length-1);
+
             return new ResourceModel
             {
                 Id = source.Id,

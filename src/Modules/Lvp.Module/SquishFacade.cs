@@ -1,5 +1,5 @@
 ﻿using System;
-using Squish;
+using Lvp.Module.Squish;
 
 namespace Lvp.Module
 {
@@ -7,7 +7,7 @@ namespace Lvp.Module
     {
         internal static Automation SquishAgent { get; private set; }
 
-        public static void EvalAndUnref(string squishCommand, Action<Automation.ObjectRef> action)
+        public static void EvalAndUnref(string squishCommand, Action<ObjectRef> action)
         {
             throw new NotImplementedException();
         }

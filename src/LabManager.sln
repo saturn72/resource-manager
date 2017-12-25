@@ -34,7 +34,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions.Tests",
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{590A59AD-D6E0-4D69-8A17-EF726ED31EF5}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Lvp.Module", "Modules\Lvp.Module\Lvp.Module.csproj", "{C980F61D-A804-448D-B82F-0EE571442CC3}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lvp.Module", "Modules\Lvp.Module\Lvp.Module.csproj", "{C980F61D-A804-448D-B82F-0EE571442CC3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

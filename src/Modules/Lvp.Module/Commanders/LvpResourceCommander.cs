@@ -9,6 +9,7 @@ using Saturn72.Extensions;
 using LabManager.Services.Commanders;
 using LabManager.Services.Ssh;
 using Squish;
+using Automation = Lvp.Module.Squish.Automation;
 
 namespace Lvp.Module.Commanders
 {
@@ -19,7 +20,7 @@ namespace Lvp.Module.Commanders
         private const string QcGui = "QC_GUI";
         private const string NoHupCommandFormat = "nohup {0} >/dev/null 2>&1 &";
         private const ushort AutPort = 8002;
-        private const int Failure = -666;
+        private const int FailureCode = -666;
 
         #endregion
         #region squish Commands
@@ -41,17 +42,17 @@ namespace Lvp.Module.Commanders
         {
             if (ActiveRutimes.Any(ar => ar.ResourceId == resource.Id))
                 throw new InvalidOperationException("Resource already started");
-
-            if (StartAutViaSsh(resource) != 0)
-                return -666;
+           
             var activeRuntime = new ActiveRuntime { ResourceId = resource.Id };
             try
             {
+                if (StartAutViaSsh(resource) != 0)
+                    return FailureCode;
                 StartLocalServices(activeRuntime, resource);
             }
-            catch (Exception ex)
+            catch
             {
-                return Failure;
+                return FailureCode;
             }
             ActiveRutimes.Add(activeRuntime);
             return 0;
@@ -89,7 +90,7 @@ namespace Lvp.Module.Commanders
         public int Stop(ResourceModel resource)
         {
             if (StopAutViaSsh(resource) != 0)
-                return Failure;
+                return FailureCode;
 
             var activeRuntime = ActiveRutimes.FirstOrDefault(ar => ar.ResourceId == resource.Id);
             if (activeRuntime.IsNull())
