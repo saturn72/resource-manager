@@ -85,7 +85,7 @@ namespace LabManager.WebService.Tests.Controllers
             var srvRes =
                 new ServiceResponse<ResourceModel>(ServiceRequestType.Create)
                 {
-                    Model = new ResourceModel {FriendlyName = "fn"},
+                    Model = new ResourceModel { FriendlyName = "fn" },
                 };
             srvRes.Result = ServiceResponseResult.Fail;
 
@@ -112,7 +112,7 @@ namespace LabManager.WebService.Tests.Controllers
 
             var expResult = new ResourceModel { FriendlyName = expName, Id = expId };
 
-            var serviceResponse = new ServiceResponse<ResourceModel>(ServiceRequestType.Create) {Model = expResult,};
+            var serviceResponse = new ServiceResponse<ResourceModel>(ServiceRequestType.Create) { Model = expResult, };
             serviceResponse.Result = ServiceResponseResult.Success;
 
             resSrv.Setup(s => s.CreateAsync(It.IsAny<ResourceModel>()))
@@ -175,7 +175,7 @@ namespace LabManager.WebService.Tests.Controllers
             var srvRes =
                 new ServiceResponse<ResourceModel>(ServiceRequestType.Update)
                 {
-                    Model = new ResourceModel {FriendlyName = "fn"},
+                    Model = new ResourceModel { FriendlyName = "fn" },
                 };
             srvRes.Result = ServiceResponseResult.Fail;
 
@@ -200,19 +200,35 @@ namespace LabManager.WebService.Tests.Controllers
             const int expId = 123;
             const string expName = "fn";
 
-            var expResult = new ResourceModel { FriendlyName = expName, Id = expId };
+            var expResult = new ResourceModel
+            {
+                FriendlyName = expName,
+                Id = expId,
+                SquishServerLocalPath = "some-local-path"
+            };
 
-            var serviceResponse = new ServiceResponse<ResourceModel>( ServiceRequestType.Update)
-            {Model = expResult, };
-            serviceResponse.Result = ServiceResponseResult.Success;
+            var serviceResponse = new ServiceResponse<ResourceModel>(ServiceRequestType.Update)
+            {
+                Model = expResult,
+                Result = ServiceResponseResult.Success
+            };
 
             resSrv.Setup(s => s.UpdateAsync(It.IsAny<ResourceModel>()))
                 .Returns(Task.FromResult(serviceResponse));
 
-            var apiModel = new ResourceApiModel { FriendlyName = expName };
+            var apiModel = new ResourceApiModel
+            {
+                Id = expId,
+                FriendlyName = expName,
+                SquishServerLocalPath = expResult.SquishServerLocalPath + "\\\\"
+            };
 
             var res = await ctrl.UpdateAsync(apiModel);
-            Assert.IsType<OkObjectResult>(res);
+            var content = Assert.IsType<OkObjectResult>(res);
+            var resObj = TestUtil.ExtractJObject(content.Value);
+            resObj.Value<long>("Id").ShouldBe(expResult.Id);
+            resObj.Value<string>("FriendlyName").ShouldBe(expResult.FriendlyName);
+            resObj.Value<string>("SquishServerLocalPath").ShouldBe(expResult.SquishServerLocalPath);
         }
         #endregion
     }

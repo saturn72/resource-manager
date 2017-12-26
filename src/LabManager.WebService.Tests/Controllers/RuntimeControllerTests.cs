@@ -230,7 +230,8 @@ namespace LabManager.WebService.Tests.Controllers
             var ctrl = new RuntimeController(rm.Object);
             var res = await ctrl.AssignSessionAsync(sessionId);
             var content = res.ShouldBeOfType<OkObjectResult>();
-            content.Value.ShouldBe(sessionId);
+            var parsedContent = TestUtil.ExtractJObject(content.Value);
+            parsedContent.Value<string>("sessionId").ShouldBe(sessionId);
         }
 
         #endregion

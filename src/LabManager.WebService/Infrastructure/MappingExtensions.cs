@@ -5,6 +5,7 @@ using LabManager.Common.Domain.Resource;
 using LabManager.WebService.Models.Resources;
 using LabManager.WebService.Models.Runtime;
 using LabManager.Services.Runtime;
+using Saturn72.Extensions;
 
 namespace LabManager.WebService.Infrastructure
 {
@@ -16,7 +17,7 @@ namespace LabManager.WebService.Infrastructure
             return source.Select(ToApiModel);
         }
 
-        
+
         public static ResourceApiModel ToApiModel(this ResourceModel source)
         {
             return new ResourceApiModel
@@ -33,11 +34,14 @@ namespace LabManager.WebService.Infrastructure
                 ObjectMapFilePath = source.ObjectMapFilePath
             };
         }
-       
+
         public static ResourceModel ToModel(this ResourceApiModel source)
         {
-            while (source.SquishServerLocalPath.EndsWith('\\'))
-                source.SquishServerLocalPath = source.SquishServerLocalPath.Substring(0, source.SquishServerLocalPath.Length-1);
+            if (source.SquishServerLocalPath.HasValue())
+            {
+                while (source.SquishServerLocalPath.EndsWith('\\'))
+                    source.SquishServerLocalPath = source.SquishServerLocalPath.Substring(0, source.SquishServerLocalPath.Length - 1);
+            }
 
             return new ResourceModel
             {
