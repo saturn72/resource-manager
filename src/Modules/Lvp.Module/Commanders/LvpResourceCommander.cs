@@ -8,8 +8,7 @@ using System.Threading;
 using Saturn72.Extensions;
 using LabManager.Services.Commanders;
 using LabManager.Services.Ssh;
-using Squish;
-using Automation = Lvp.Module.Squish.Automation;
+using Lvp.Module.Squish;
 
 namespace Lvp.Module.Commanders
 {

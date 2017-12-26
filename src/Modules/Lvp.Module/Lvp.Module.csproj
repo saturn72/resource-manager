@@ -5,14 +5,9 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\..\..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
     <ProjectReference Include="..\..\LabManager.Common\LabManager.Common.csproj" />
     <ProjectReference Include="..\..\LabManager.Services\LabManager.Services.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="SquishAutomationDotNet">
-      <HintPath>..\..\..\..\..\Automation\SquishAutomationDotNet.dll</HintPath>
-    </Reference>
   </ItemGroup>
 
 </Project>
