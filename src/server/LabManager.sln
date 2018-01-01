@@ -20,25 +20,25 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LabManager.IntegrationTests
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{D7D513C1-B033-4FEE-A4EA-4752202409E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core", "..\submodules\saturn72\src\Saturn72.Core\Saturn72.Core.csproj", "{74F99681-219B-4755-99C6-4CB25AFE788A}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core", "..\..\submodules\saturn72\src\Saturn72.Core\Saturn72.Core.csproj", "{74F99681-219B-4755-99C6-4CB25AFE788A}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Services", "..\submodules\saturn72\src\Saturn72.Core.Services\Saturn72.Core.Services.csproj", "{C0580555-03B4-49DC-AC92-F4B4B2EF7E89}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Services", "..\..\submodules\saturn72\src\Saturn72.Core.Services\Saturn72.Core.Services.csproj", "{C0580555-03B4-49DC-AC92-F4B4B2EF7E89}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Services.Tests", "..\submodules\saturn72\src\Saturn72.Core.Services.Tests\Saturn72.Core.Services.Tests.csproj", "{4B0F9684-AC81-4248-A645-80E85BCA7CF0}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Services.Tests", "..\..\submodules\saturn72\src\Saturn72.Core.Services.Tests\Saturn72.Core.Services.Tests.csproj", "{4B0F9684-AC81-4248-A645-80E85BCA7CF0}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Tests", "..\submodules\saturn72\src\Saturn72.Core.Tests\Saturn72.Core.Tests.csproj", "{77BFBE37-EACE-406B-A959-64B2EF86F3E8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Core.Tests", "..\..\submodules\saturn72\src\Saturn72.Core.Tests\Saturn72.Core.Tests.csproj", "{77BFBE37-EACE-406B-A959-64B2EF86F3E8}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions", "..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj", "{99D641A7-DF94-4443-B81D-B817FBC11C29}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions", "..\..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj", "{99D641A7-DF94-4443-B81D-B817FBC11C29}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions.Tests", "..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions.Tests\Saturn72.Extensions.Tests.csproj", "{1CFFDE72-E3DE-4157-923A-CDCFF9CB4289}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.Extensions.Tests", "..\..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions.Tests\Saturn72.Extensions.Tests.csproj", "{1CFFDE72-E3DE-4157-923A-CDCFF9CB4289}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Modules", "Modules", "{590A59AD-D6E0-4D69-8A17-EF726ED31EF5}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Lvp.Module", "Modules\Lvp.Module\Lvp.Module.csproj", "{C980F61D-A804-448D-B82F-0EE571442CC3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.FileConverters", "..\submodules\saturn72\submodules\Saturn72.FileConverters\src\Saturn72.FileConverters\Saturn72.FileConverters.csproj", "{3998578A-80E5-4938-9CE4-623C1B84B54E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.FileConverters", "..\..\submodules\saturn72\submodules\Saturn72.FileConverters\src\Saturn72.FileConverters\Saturn72.FileConverters.csproj", "{3998578A-80E5-4938-9CE4-623C1B84B54E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.FileConverters.Tests", "..\submodules\saturn72\submodules\Saturn72.FileConverters\src\Saturn72.FileConverters.Tests\Saturn72.FileConverters.Tests.csproj", "{F3B87E6F-6458-4DF5-A136-CC19FD2CD4DC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Saturn72.FileConverters.Tests", "..\..\submodules\saturn72\submodules\Saturn72.FileConverters\src\Saturn72.FileConverters.Tests\Saturn72.FileConverters.Tests.csproj", "{F3B87E6F-6458-4DF5-A136-CC19FD2CD4DC}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

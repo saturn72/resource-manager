@@ -1,13 +1,10 @@
 <Project Sdk="Microsoft.NET.Sdk">
-
   <PropertyGroup>
     <TargetFramework>netcoreapp2.0</TargetFramework>
   </PropertyGroup>
-
   <ItemGroup>
-    <ProjectReference Include="..\..\..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
+    <ProjectReference Include="..\..\..\..\submodules\saturn72\submodules\saturn72.Extensions\src\Saturn72.Extensions\Saturn72.Extensions.csproj" />
     <ProjectReference Include="..\..\LabManager.Common\LabManager.Common.csproj" />
     <ProjectReference Include="..\..\LabManager.Services\LabManager.Services.csproj" />
   </ItemGroup>
-
 </Project>

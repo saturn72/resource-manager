@@ -3,7 +3,7 @@
     <PackageReference Include="Renci.SshNet.Async" Version="1.2.0" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\..\submodules\saturn72\src\Saturn72.Core.Services\Saturn72.Core.Services.csproj" />
+    <ProjectReference Include="..\..\..\submodules\saturn72\src\Saturn72.Core.Services\Saturn72.Core.Services.csproj" />
     <ProjectReference Include="..\LabManager.Common\LabManager.Common.csproj" />
   </ItemGroup>
   <PropertyGroup>
