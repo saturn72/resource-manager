@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Threading.Tasks;
 using LabManager.Common.Domain.Resource;
-using LabManager.Services.Commanders;
 using LabManager.Services.Resources;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Services;
@@ -18,13 +17,13 @@ namespace LabManager.Services.Instance
         private readonly ICacheManager _cacheManager;
         private readonly AuditHelper _auditHelper;
         private readonly IEventPublisher _eventPublisher;
-        private readonly IResourceCommander _resourceCommander;
+        private readonly IResourceController _resourceCommander;
 
         #endregion
 
         #region ctor
 
-        public InstanceService(IResourceRepository resourceRepository, ICacheManager cacheManager, AuditHelper auditHelper, IEventPublisher eventPublisher, IResourceCommander resourceCommander)
+        public InstanceService(IResourceRepository resourceRepository, ICacheManager cacheManager, AuditHelper auditHelper, IEventPublisher eventPublisher, IResourceController resourceCommander)
         {
             _resourceRepository = resourceRepository;
             _cacheManager = cacheManager;

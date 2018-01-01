@@ -3,10 +3,11 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using LabManager.Services.Instance;
 using Saturn72.Core.Services;
+using Saturn72.Core.Services.Web.Controllers;
 
 namespace LabManager.WebService.Controllers
 {
-    public class InstanceController : ControllerBase
+    public class InstanceController : Saturn72ControllerBase
     {
         #region Fields
 

@@ -8,12 +8,13 @@ using LabManager.Services.Resources;
 using LabManager.WebService.Infrastructure;
 using Saturn72.Extensions;
 using Saturn72.Core.Services;
+using Saturn72.Core.Services.Web.Controllers;
 
 #endregion
 
 namespace LabManager.WebService.Controllers
 {
-    public class ResourceController : ControllerBase
+    public class ResourceController : Saturn72ControllerBase
     {
         #region Fields
 

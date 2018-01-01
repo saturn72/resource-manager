@@ -2,18 +2,16 @@
 using LabManager.DbModel;
 using LabManager.DbModel.Infrastructure;
 using LabManager.DbModel.Repositories;
-using LabManager.Services.Commanders;
 using LabManager.Services.Instance;
 using LabManager.Services.Resources;
 using LabManager.Services.Runtime;
-using Lvp.Module.Commanders;
+using Lvp.Module;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Saturn72.Core.Caching;
 using Saturn72.Core.Services;
-using Saturn72.Core.Caching;
 using Saturn72.Core.Services.Events;
 using Saturn72.Core.Services.Logging;
 using Swashbuckle.AspNetCore.Swagger;
@@ -65,7 +63,7 @@ namespace LabManager.WebService
             services.AddScoped<IResourceRepository, ResourceRepository>();
 
             services.AddScoped<IInstanceService, InstanceService>();
-            services.AddScoped<IResourceCommander, LvpResourceCommander>();
+            services.AddScoped<IResourceController, LvpResourceController>();
             services.AddScoped<IRuntimeManager, RuntimeManager>();
 
             services.AddSingleton<IDbAdapter>(sp =>

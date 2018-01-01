@@ -1,18 +1,18 @@
-using LabManager.Common.Domain.Resource;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
-using Saturn72.Extensions;
-using LabManager.Services.Commanders;
-using LabManager.Services.Ssh;
 using Lvp.Module.Squish;
+using Saturn72.Extensions;
+using LabManager.Common.Domain.Resource;
+using LabManager.Services.Ssh;
+using LabManager.Services.Resources;
 
-namespace Lvp.Module.Commanders
+namespace Lvp.Module
 {
-    public class LvpResourceCommander : IResourceCommander
+    public class LvpResourceController : IResourceController
     {
         #region Consts
 
@@ -22,9 +22,11 @@ namespace Lvp.Module.Commanders
         private const int FailureCode = -666;
 
         #endregion
+
         #region squish Commands
 
-        private static readonly string SetWrapperCommand = "testSettings.setWrappersForApplication('{0}', ['Qt'])".AsFormat(QcGui);
+        private static readonly string SetWrapperCommand =
+            "testSettings.setWrappersForApplication('{0}', ['Qt'])".AsFormat(QcGui);
 
         private const string LoadObjectMapCommandFormat = "objectMap.load(\"{0}\");";
 
@@ -37,12 +39,17 @@ namespace Lvp.Module.Commanders
 
         #endregion
 
+        public void Command(string command)
+        {
+            throw new NotImplementedException("send command to device");
+        }
+
         public int Start(ResourceModel resource)
         {
             if (ActiveRutimes.Any(ar => ar.ResourceId == resource.Id))
                 throw new InvalidOperationException("Resource already started");
-           
-            var activeRuntime = new ActiveRuntime { ResourceId = resource.Id };
+
+            var activeRuntime = new ActiveRuntime {ResourceId = resource.Id};
             try
             {
                 if (StartAutViaSsh(resource) != 0)
@@ -153,7 +160,7 @@ namespace Lvp.Module.Commanders
             if (!sshResponse.HasValue())
                 return false;
 
-            var lines = sshResponse.Split(new[] { "\n" }, StringSplitOptions.RemoveEmptyEntries);
+            var lines = sshResponse.Split(new[] {"\n"}, StringSplitOptions.RemoveEmptyEntries);
             var commandLineIndex = 0;
             int pId;
 
@@ -222,6 +229,7 @@ namespace Lvp.Module.Commanders
                 resource.SshPassword.IsEmptyOrNull())
                 throw new MissingMemberException("Missing resource data for ssh connection");
         }
+
         private void ValidateResourceFields(ResourceModel resource)
         {
             var path = resource.SquishServerLocalPath;
@@ -232,6 +240,7 @@ namespace Lvp.Module.Commanders
                 || !File.Exists(resource.ObjectMapFilePath))
                 throw new MissingMemberException("Missing resource data for connecting to squish");
         }
+
         #endregion
     }
 }

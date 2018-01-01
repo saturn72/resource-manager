@@ -1,11 +1,12 @@
 ﻿using LabManager.Common.Domain.Resource;
 
-namespace LabManager.Services.Commanders
+namespace LabManager.Services.Resources
 {
-    public interface IResourceCommander
+    public interface IResourceController
     {
         int Start(ResourceModel resource);
         int Stop(ResourceModel resource);
         bool IsAlive(ResourceModel resource);
+        void Command(string command);
     }
 }

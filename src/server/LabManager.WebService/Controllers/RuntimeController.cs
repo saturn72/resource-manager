@@ -7,10 +7,11 @@ using LabManager.Services.Runtime;
 using Saturn72.Extensions;
 using Saturn72.Core.Services;
 using System.Linq;
+using Saturn72.Core.Services.Web.Controllers;
 
 namespace LabManager.WebService.Controllers
 {
-    public class RuntimeController : ControllerBase
+    public class RuntimeController : Saturn72ControllerBase
     {
         #region Fields
 

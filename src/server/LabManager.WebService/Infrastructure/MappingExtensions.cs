@@ -5,7 +5,9 @@ using LabManager.Common.Domain.Resource;
 using LabManager.WebService.Models.Resources;
 using LabManager.WebService.Models.Runtime;
 using LabManager.Services.Runtime;
+using LabManager.WebService.Models.Command;
 using Saturn72.Extensions;
+using LabManager.Common.Domain.Command;
 
 namespace LabManager.WebService.Infrastructure
 {
@@ -71,5 +73,16 @@ namespace LabManager.WebService.Infrastructure
             };
         }
         #endregion
+
+        #region CommandApiModel <==> CommandModel
+
+        internal static CommandModel ToModel(this CommandApiModel source)
+        {
+            return new CommandModel
+            {
+                ResourceId = source.ResourceId,
+            };
+        }
+#endregion
     }
 }

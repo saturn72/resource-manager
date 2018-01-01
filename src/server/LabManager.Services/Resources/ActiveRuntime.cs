@@ -1,6 +1,6 @@
 ﻿using System.Collections.Generic;
 
-namespace LabManager.Services.Commanders
+namespace LabManager.Services.Resources
 {
     public class ActiveRuntime
     {

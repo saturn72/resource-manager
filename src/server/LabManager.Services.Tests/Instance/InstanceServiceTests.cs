@@ -12,7 +12,6 @@ using Saturn72.Core.Caching;
 using Saturn72.Core.Services;
 using Saturn72.Core;
 using Saturn72.Core.Services.Events;
-using LabManager.Services.Commanders;
 using Saturn72.Core.Audit;
 
 namespace LabManager.Services.Tests.Instance
@@ -83,7 +82,7 @@ namespace LabManager.Services.Tests.Instance
             };
             var cm = new Mock<ICacheManager>();
             cm.Setup(c => c.Get<ResourceModel>(It.IsAny<string>())).Returns(rm);
-            var rc = new Mock<IResourceCommander>();
+            var rc = new Mock<IResourceController>();
 
             //Returns 0 (started) from resource commander
             rc.Setup(r => r.Start(It.IsAny<ResourceModel>())).Returns(0);
@@ -190,7 +189,7 @@ namespace LabManager.Services.Tests.Instance
             };
             var cm = new Mock<ICacheManager>();
             cm.Setup(c => c.Get<ResourceModel>(It.IsAny<string>())).Returns(rm);
-            var rc = new Mock<IResourceCommander>();
+            var rc = new Mock<IResourceController>();
 
             //Returns 0 (Stopped) from resource commander
             rc.Setup(r => r.Stop(It.IsAny<ResourceModel>())).Returns(0);
