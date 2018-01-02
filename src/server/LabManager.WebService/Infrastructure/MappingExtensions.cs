@@ -81,6 +81,7 @@ namespace LabManager.WebService.Infrastructure
             return new CommandModel
             {
                 ResourceId = source.ResourceId,
+                SessionId = source.SessionId,
             };
         }
 #endregion

@@ -1,4 +1,5 @@
-﻿using System.Threading.Tasks;
+﻿using System.Collections.Generic;
+using System.Threading.Tasks;
 using LabManager.WebService.Controllers;
 using Microsoft.AspNetCore.Mvc;
 using Moq;
@@ -13,14 +14,25 @@ namespace LabManager.WebService.Tests.Controllers
 {
     public class CommandControllerTests
     {
-        [Fact]
-        public async Task CommandController_SendCommand_ReturndBadRequest()
+        [Theory]
+        [MemberData(nameof(CommandController_SendCommand_ReturndBadRequest_Data))]
+        public async Task CommandController_SendCommand_ReturndBadRequest(CommandApiModel apiModel)
         {
             var ctrl = new CommandController(null);
 
-            var res = await ctrl.SendCommand(null);
+            var res = await ctrl.SendCommand(apiModel);
             res.ShouldBeOfType<BadRequestObjectResult>();
         }
+
+        public static IEnumerable<object[]> CommandController_SendCommand_ReturndBadRequest_Data =>
+            new[]
+            {
+                new object[] {null},
+                new object[] {new CommandApiModel(),},
+                new object[] {new CommandApiModel {ResourceId = "123"},},
+                new object[] {new CommandApiModel {SessionId = "123"},},
+            };
+
         [Fact]
         public async Task CommandController_SendCommand_ReturndErrorFromService()
         {
@@ -50,7 +62,8 @@ namespace LabManager.WebService.Tests.Controllers
 
             var ctrl = new CommandController(srv.Object);
 
-            var res = await ctrl.SendCommand(new CommandApiModel());
+            var commandApiModel = new CommandApiModel{ResourceId = "some-resource", SessionId = "some-session"};
+            var res = await ctrl.SendCommand(commandApiModel);
             res.ShouldBeOfType<OkObjectResult>();
         }
     }

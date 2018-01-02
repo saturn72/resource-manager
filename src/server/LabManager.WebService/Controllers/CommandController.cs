@@ -1,5 +1,4 @@
-﻿using System;
-using System.Threading.Tasks;
+﻿using System.Threading.Tasks;
 using LabManager.WebService.Infrastructure;
 using LabManager.WebService.Models.Command;
 using Microsoft.AspNetCore.Mvc;
@@ -32,8 +31,14 @@ namespace LabManager.WebService.Controllers
         [HttpPost]
         public async Task<IActionResult> SendCommand(CommandApiModel apiModel)
         {
-            if (apiModel.IsNull())
-                return BadRequest("commad is required");
+            if (apiModel.IsNull() || 
+                !apiModel.SessionId.HasValue() ||
+                !apiModel.ResourceId.HasValue() )
+                return BadRequest(new
+                {
+                    message = "Missing command data",
+                    model = apiModel
+                });
             var command = apiModel.ToModel();
             var srvRes = await _commandResourceService.SendCommand(command);
             return srvRes.HasErrors() || !srvRes.IsFullySuccess()?

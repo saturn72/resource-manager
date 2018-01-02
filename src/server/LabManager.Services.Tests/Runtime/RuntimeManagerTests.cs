@@ -171,7 +171,7 @@ namespace LabManager.Services.Tests.Runtime
         #region IsAssigned
 
         [Fact]
-        public async Task RuntimeManager_IsAssigned()
+        public Task RuntimeManager_IsAssigned()
         {
             throw new NotImplementedException("Save current resource state to db");
             //var runtimeManager = new RuntimeManager(null, null);

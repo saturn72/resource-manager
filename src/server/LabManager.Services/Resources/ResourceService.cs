@@ -39,7 +39,7 @@ namespace LabManager.Services.Resources
         public Task<ServiceResponse<ResourceModel>> CreateAsync(ResourceModel model)
         {
             var srvRes = new ServiceResponse<ResourceModel>(ServiceRequestType.Create){Model = model };
-            ValidateModelForCreate(model, srvRes);
+            ValidateModelForCreate(srvRes);
             if (srvRes.HasErrors())
                 return Task.FromResult(srvRes);
 
@@ -58,8 +58,9 @@ namespace LabManager.Services.Resources
             });
         }
 
-        private void ValidateModelForCreate(ResourceModel model, ServiceResponse<ResourceModel> serviceResponse)
+        private void ValidateModelForCreate(ServiceResponse<ResourceModel> serviceResponse)
         {
+            var model = serviceResponse.Model;
             if (model.IsNull())
             {
                 serviceResponse.ErrorMessage = "Missing model data or null model.";
