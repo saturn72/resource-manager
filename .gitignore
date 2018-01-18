@@ -32,4 +32,4 @@ _ReSharper*/
 packages/
 
 #node
-//*node_modules/*
+**/node_modules/*
