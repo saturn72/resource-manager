@@ -16,6 +16,8 @@
   },
   "private": true,
   "dependencies": {
+    "@angular-devkit/core": "^0.4.3",
+    "@angular-devkit/schematics": "^0.4.3",
     "@angular/animations": "5.2.3",
     "@angular/common": "5.2.3",
     "@angular/compiler": "5.2.3",
@@ -26,12 +28,15 @@
     "@angular/platform-browser-dynamic": "5.2.3",
     "@angular/router": "5.2.3",
     "@angular/upgrade": "5.2.3",
+    "@schematics/package-update": "^0.4.3",
     "bootstrap": "^4.0.0",
     "chart.js": "2.7.1",
     "core-js": "2.5.3",
+    "file-loader": "^1.1.10",
     "flag-icon-css": "2.9.0",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",
+    "less-loader": "^4.0.6",
     "moment": "2.20.1",
     "ng2-charts": "1.6.0",
     "ngx-bootstrap": "2.0.2",
@@ -43,7 +48,7 @@
     "zone.js": "0.8.20"
   },
   "devDependencies": {
-    "@angular/cli": "1.6.7",
+    "@angular/cli": "^1.7.2",
     "@angular/compiler-cli": "5.2.3",
     "@angular/language-service": "5.2.3",
     "@types/jasmine": "2.8.6",
@@ -61,7 +66,8 @@
     "protractor": "5.3.0",
     "ts-node": "4.1.0",
     "tslint": "5.9.1",
-    "typescript": "2.6.2"
+    "typescript": "2.6.2",
+    "webpack": "^3.0.0"
   },
   "engines": {
     "node": ">= 8.9.4",
