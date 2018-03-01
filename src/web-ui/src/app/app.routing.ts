@@ -21,6 +21,11 @@ export const routes: Routes = [
     },
     children: [
       {
+        path: 'lab-management',
+        loadChildren: './views/lab-management/lab-management.module#LabManagementModule'
+        
+      },
+      {
         path: 'base',
         loadChildren: './views/base/base.module#BaseModule'
       },
@@ -70,7 +75,7 @@ export const routes: Routes = [
 ];
 
 @NgModule({
-  imports: [ RouterModule.forRoot(routes) ],
-  exports: [ RouterModule ]
+  imports: [RouterModule.forRoot(routes)],
+  exports: [RouterModule]
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -10,6 +10,13 @@ export const navigation = [
   },
   {
     title: true,
+    name: 'Lab Management'
+  }, {
+    name: 'Hosts',
+    url: '/lab-management/hosts',
+    icon: 'fa fa-desktop'
+  }, {
+    title: true,
     name: 'Theme'
   },
   {
