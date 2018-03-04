@@ -1,3 +1,0 @@
-ng build
-docker build -t app-name . 
-docker run -d -p 8080:80 app-name
